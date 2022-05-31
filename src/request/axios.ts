@@ -50,7 +50,7 @@ class AxiosServer {
     if (error?.status === Constant.code.ERROR_AUTHENTICATION) {
       toast.error('Truy cập bị từ chối, vui lòng thử lại');
     } else {
-      toast.error(error.toString());
+      toast.error(error.message);
     }
     return Promise.reject(error);
   }

@@ -18,6 +18,7 @@ const LoginPage: FC<any> = () => {
   const { loadingLogin } = useAppSelector(getUserSlice);
 
   const handleSocialLogin = (userSocial) => {
+    console.log('userSocial: ', userSocial);
     const propNameToken = Constant.social.TOKEN[userSocial.provider] || '';
     dispatch(
       verifyOAuth2Start({
@@ -55,7 +56,7 @@ const LoginPage: FC<any> = () => {
       <NoSsr>
         <SocialButton
           provider={Constant.social.PROVIDE_FACEBOOK as Provider}
-          appId="337403978525891"
+          appId={process.env.NEXT_PUBLIC_FACEBOOK_APP_ID as any}
           onLoginSuccess={handleSocialLogin}
           onLoginFailure={handleSocialLoginFailure}
           loading={loadingLogin}
@@ -65,7 +66,7 @@ const LoginPage: FC<any> = () => {
 
         <SocialButton
           provider={Constant.social.PROVIDE_GOOGLE as Provider}
-          appId="753875100965-uqa692t84g20k2m0djocqohr2c4d7a1u.apps.googleusercontent.com"
+          appId={process.env.NEXT_PUBLIC_GOOGLE_APP_ID as any}
           onLoginSuccess={handleSocialLogin}
           onLoginFailure={handleSocialLoginFailure}
           loading={loadingLogin}

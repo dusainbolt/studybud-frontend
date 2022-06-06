@@ -1,12 +1,10 @@
 import { FC } from 'react';
-import { layoutStyle } from './layoutStyle';
 
 interface SidebarProps {
   activeLink?: string;
 }
 
 export const Sidebar: FC<SidebarProps> = () => {
-  const styles = layoutStyle();
   // const { role } = useAppSelector(getAuthSlice);
   // const router = useRouter();
 
@@ -28,7 +26,7 @@ export const Sidebar: FC<SidebarProps> = () => {
   // const hideByProject = (item) => router.route.indexOf('/project') !== -1 && item.hideByProject;
 
   return (
-    <div className={styles.sidebar}>
+    <div>
       {/* <div className={styles.sidebarWrap}>
         <List style={{ width: '100%' }}>
           {menu[role || Role.USER].map((item, index) =>

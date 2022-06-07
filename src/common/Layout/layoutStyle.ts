@@ -3,6 +3,7 @@ import { makeStyles } from '@mui/styles';
 export const layoutStyle = makeStyles({
   root: {
     background: '#D1D2E4',
+    paddingBottom: 70,
   },
   // header: {
   //   position: 'sticky',

@@ -5,7 +5,7 @@ import Constant from '@utils/constant';
 type DefaultStyle = {
   container: any;
   main: any;
-  btnStyle: (color: string, hoverBackground: string) => any;
+  btnStyle: (color: string) => any;
 };
 
 export const defaultStyle: DefaultStyle = {
@@ -21,12 +21,14 @@ export const defaultStyle: DefaultStyle = {
   main: {
     marginTop: 100,
   },
-  btnStyle: (color: string, hoverBackground: string = '') => ({
+  btnStyle: (color: string) => ({
     borderColor: color,
-    color: color,
+    background: color,
+
     '&:hover': {
       borderColor: color,
-      background: hoverBackground,
+      background: color,
+      opacity: 0.7,
     },
   }),
 };

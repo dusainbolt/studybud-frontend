@@ -9,7 +9,18 @@ export interface ButtonProps extends LoadingButtonProps {
 
 export const Button: FC<ButtonProps> = ({ children, triggerLogin, onClick, helpText = '', ...props }) => {
   const button = (
-    <LoadingButton {...props} onClick={triggerLogin || onClick}>
+    <LoadingButton
+      {...props}
+      sx={{
+        borderRadius: 22,
+        height: 52,
+        fontWeight: 600,
+        fontSize: 24,
+        textTransform: 'initial',
+        padding: '10px 24px',
+      }}
+      onClick={triggerLogin || onClick}
+    >
       <span
         style={{
           overflow: 'hidden',

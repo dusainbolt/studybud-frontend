@@ -1,5 +1,5 @@
 import { Layout } from '@common/Layout';
-import { Container, Stack, Avatar, Typography } from '@mui/material';
+import { Container, Stack, Avatar, Typography, Grid, FormControlLabel, Breadcrumbs, Link } from '@mui/material';
 import clsx from 'clsx';
 import { FC } from 'react';
 import { homePageStyle } from './homePageStyle';
@@ -9,6 +9,7 @@ import { Button } from '@common/Button';
 import SchoolIcon from '@mui/icons-material/School';
 import HomeIcon from '@mui/icons-material/Home';
 import FemaleIcon from '@mui/icons-material/Female';
+import { IOSSwitch } from '@common/Switch/IOSSwitch';
 
 const HomePage: FC<any> = () => {
   const styles = homePageStyle();
@@ -36,12 +37,27 @@ const HomePage: FC<any> = () => {
   //   await updateUserMutation(values);
   // };
 
+  const breadcrumbs = [
+    <Link underline="hover" key="1" color="inherit" href="/">
+      Ngôn ngữ
+    </Link>,
+    <Link underline="hover" key="2" color="inherit" href="/material-ui/getting-started/installation/">
+      Tiếng Anh
+    </Link>,
+    <Typography key="3" color="inherit">
+      Thi IELTS
+    </Typography>,
+    <Typography key="3" color="inherit">
+      8.0
+    </Typography>,
+  ];
+
   return (
     <Layout>
       <main className={clsx(styles.main)}>
         <Container className={styles.container}>
           <div className={styles.cover}></div>
-          <Stack className={styles.contentWrap} spacing={4} direction="row">
+          <Stack className={styles.contentWrap} spacing={4} direction={{ xs: 'column', md: 'row' }}>
             <div className={styles.avatarWrap}>
               <Avatar alt={user?.name} src={user?.avatar || ''} />
               <Typography className={styles.username} variant="h1">
@@ -55,7 +71,7 @@ const HomePage: FC<any> = () => {
                 hiện đang học Python và sắp thi IELTS aim 8.0. Nhắn tin với mình để trao đổi thêm nhé. Mình có thể dành
                 ra khoảng 1 giờ/tuần để học trực tuyến hoặc gặp bạn trực tiếp ở gần Quận 7, TP. HCM. Nice to meet you!
               </div>
-              <Stack direction="row" justifyContent="space-between">
+              <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between">
                 <Stack>
                   <div>
                     <b>Hoạt động lần cuối:</b> 23/02/2022
@@ -113,6 +129,96 @@ const HomePage: FC<any> = () => {
             </div>
             <div className={styles.profileContentRight}>
               <div className={styles.profileContentBox}>Them yeu cau tim ban hoc</div>
+              <Grid container sx={{ marginTop: 2 }} spacing={3}>
+                <Grid item xs={4}>
+                  <div className={styles.cardSubject}>
+                    <div className={styles.cardSubjectHeader}>
+                      <h3>Ôn thi IELTS cấp tốc Band 8.0</h3>
+                      <FormControlLabel control={<IOSSwitch sx={{ m: 1 }} defaultChecked />} label="" />
+                    </div>
+                    <div className={styles.cardSubjectBottom}>
+                      <Breadcrumbs className={styles.breadCrumbsTarget} separator="›" aria-label="breadcrumb">
+                        {breadcrumbs}
+                      </Breadcrumbs>{' '}
+                      <div style={{ marginTop: '10px', fontSize: 18 }}>
+                        <b>Mô tả:</b> Mình từng học chuyên Anh hồi cấp 3 và thi IELTS được 7.0. Test trình độ của mình
+                        hiện tại là 7.5 overall band với 6.5 speaking, 6.0 writing, 8.0 speaking, 9.0 listening.
+                      </div>
+                      <div style={{ marginTop: '10px', fontSize: 18 }}>
+                        <b>Mục tiêu của mình:</b> Mình muốn trở thành giáo viên dạy IELTS nên có nhu cầu đạt Band 8.0+
+                        trong 3 tháng nữa, với các Band đều trên 6.5. Mình cũng muốn thử tự học với các bạn đang gặp khó
+                        khăn trong IELTS như mình để luyện tập kỹ năng giảng dạy IELTS cho sau này.
+                      </div>
+                    </div>
+                  </div>
+                </Grid>
+                <Grid item xs={4}>
+                  <div className={styles.cardSubject}>
+                    <div className={styles.cardSubjectHeader}>
+                      <h3>Ôn thi IELTS cấp tốc Band 8.0</h3>
+                      <FormControlLabel control={<IOSSwitch sx={{ m: 1 }} defaultChecked />} label="" />
+                    </div>
+                    <div className={styles.cardSubjectBottom}>
+                      <Breadcrumbs className={styles.breadCrumbsTarget} separator="›" aria-label="breadcrumb">
+                        {breadcrumbs}
+                      </Breadcrumbs>{' '}
+                      <div style={{ marginTop: '10px', fontSize: 18 }}>
+                        <b>Mô tả:</b> Mình từng học chuyên Anh hồi cấp 3 và thi IELTS được 7.0. Test trình độ của mình
+                        hiện tại là 7.5 overall band với 6.5 speaking, 6.0 writing, 8.0 speaking, 9.0 listening.
+                      </div>
+                      <div style={{ marginTop: '10px', fontSize: 18 }}>
+                        <b>Mục tiêu của mình:</b> Mình muốn trở thành giáo viên dạy IELTS nên có nhu cầu đạt Band 8.0+
+                        trong 3 tháng nữa, với các Band đều trên 6.5. Mình cũng muốn thử tự học với các bạn đang gặp khó
+                        khăn trong IELTS như mình để luyện tập kỹ năng giảng dạy IELTS cho sau này.
+                      </div>
+                    </div>
+                  </div>
+                </Grid>
+                <Grid item xs={4}>
+                  <div className={styles.cardSubject}>
+                    <div className={styles.cardSubjectHeader}>
+                      <h3>Ôn thi IELTS cấp tốc Band 8.0</h3>
+                      <FormControlLabel control={<IOSSwitch sx={{ m: 1 }} defaultChecked />} label="" />
+                    </div>
+                    <div className={styles.cardSubjectBottom}>
+                      <Breadcrumbs className={styles.breadCrumbsTarget} separator="›" aria-label="breadcrumb">
+                        {breadcrumbs}
+                      </Breadcrumbs>{' '}
+                      <div style={{ marginTop: '10px', fontSize: 18 }}>
+                        <b>Mô tả:</b> Mình từng học chuyên Anh hồi cấp 3 và thi IELTS được 7.0. Test trình độ của mình
+                        hiện tại là 7.5 overall band với 6.5 speaking, 6.0 writing, 8.0 speaking, 9.0 listening.
+                      </div>
+                      <div style={{ marginTop: '10px', fontSize: 18 }}>
+                        <b>Mục tiêu của mình:</b> Mình muốn trở thành giáo viên dạy IELTS nên có nhu cầu đạt Band 8.0+
+                        trong 3 tháng nữa, với các Band đều trên 6.5. Mình cũng muốn thử tự học với các bạn đang gặp khó
+                        khăn trong IELTS như mình để luyện tập kỹ năng giảng dạy IELTS cho sau này.
+                      </div>
+                    </div>
+                  </div>
+                </Grid>
+                <Grid item xs={4}>
+                  <div className={styles.cardSubject}>
+                    <div className={styles.cardSubjectHeader}>
+                      <h3>Ôn thi IELTS cấp tốc Band 8.0</h3>
+                      <FormControlLabel control={<IOSSwitch sx={{ m: 1 }} defaultChecked />} label="" />
+                    </div>
+                    <div className={styles.cardSubjectBottom}>
+                      <Breadcrumbs className={styles.breadCrumbsTarget} separator="›" aria-label="breadcrumb">
+                        {breadcrumbs}
+                      </Breadcrumbs>{' '}
+                      <div style={{ marginTop: '10px', fontSize: 18 }}>
+                        <b>Mô tả:</b> Mình từng học chuyên Anh hồi cấp 3 và thi IELTS được 7.0. Test trình độ của mình
+                        hiện tại là 7.5 overall band với 6.5 speaking, 6.0 writing, 8.0 speaking, 9.0 listening.
+                      </div>
+                      <div style={{ marginTop: '10px', fontSize: 18 }}>
+                        <b>Mục tiêu của mình:</b> Mình muốn trở thành giáo viên dạy IELTS nên có nhu cầu đạt Band 8.0+
+                        trong 3 tháng nữa, với các Band đều trên 6.5. Mình cũng muốn thử tự học với các bạn đang gặp khó
+                        khăn trong IELTS như mình để luyện tập kỹ năng giảng dạy IELTS cho sau này.
+                      </div>
+                    </div>
+                  </div>
+                </Grid>
+              </Grid>
             </div>
           </Stack>
         </Container>

@@ -16,7 +16,7 @@ export const loginPageStyle = makeStyles((theme: Theme) => ({
   //   marginTop: theme.spacing(2),
   // },
   btnMetamask: {
-    ...defaultStyle.btnStyle('#dc6a00', '#dc6a001c'),
+    ...defaultStyle.btnStyle('#dc6a00'),
     '& .icon-metamask': {
       width: 32,
     },

@@ -1,41 +1,51 @@
 import { Layout } from '@common/Layout';
 import { Container, Stack, Avatar, Typography, Grid, FormControlLabel, Breadcrumbs, Link } from '@mui/material';
 import clsx from 'clsx';
-import { FC } from 'react';
-import { homePageStyle } from './homePageStyle';
-import { useAppSelector } from '@redux/store';
-import { getUserSlice } from '@redux/slices/userSlice';
+import { FC, useState } from 'react';
+import { profilePageStyle } from './ProfilePageStyle';
+import { useAppDispatch, useAppSelector } from '@redux/store';
+import { getUserSlice, updateProfileStart } from '@redux/slices/userSlice';
 import { Button } from '@common/Button';
+import { ButtonIcon } from '@common/Button/ButtonIcon';
 import SchoolIcon from '@mui/icons-material/School';
 import HomeIcon from '@mui/icons-material/Home';
 import FemaleIcon from '@mui/icons-material/Female';
 import { IOSSwitch } from '@common/Switch/IOSSwitch';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import EditIcon from '@mui/icons-material/Edit';
+import CakeIcon from '@mui/icons-material/Cake';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { ModalDescription } from './ModalEditProfile/ModalDescription';
+import Validate from '@utils/validate';
+import * as yup from 'yup';
+import { Formik } from 'formik';
+import { UpdateUserInput } from '@type/user';
 
-const HomePageComponent: FC<any> = () => {
-  const styles = homePageStyle();
-  const { user } = useAppSelector(getUserSlice);
+const ProfilePageComponent: FC<{
+  isMyProfile: boolean;
+}> = ({ isMyProfile }) => {
+  const styles = profilePageStyle();
+  const { user, loadingUpdateProfile } = useAppSelector(getUserSlice);
+  const [visibleModalDescription, setVisibleModalDescription] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const initialValuesProfile: UpdateUserInput = {
+    username: user?.username || '',
+    description: user?.description || '',
+  };
 
-  // const dispatch = useAppDispatch();
+  const validateModalDescription = yup.object({
+    description: yup.string().required(Validate.require('Mô tả')),
+    // .min(4, Validate.during(4, 12))
+    // .max(12, Validate.during(4, 12)),
+  });
 
-  // const initValueFormEditUser: UpdateUserInput = { username: '' };
+  const toggleModalDescription = () => {
+    setVisibleModalDescription((visible) => !visible);
+  };
 
-  // const validateFormEditUser = yup.object({
-  //   username: yup.string().required(Validate.require('username')),
-  //   // .min(4, Validate.during(4, 12))
-  //   // .max(12, Validate.during(4, 12)),
-  // });
-
-  // useEffect(() => {
-  //   dispatch(getListUserStart());
-  // }, []);
-
-  // const logOut = () => {
-  //   dispatch(logout());
-  // };
-
-  // const onSubmitEditUser = async (values) => {
-  //   await updateUserMutation(values);
-  // };
+  const onSubmitModalProfile = (variables: UpdateUserInput) => {
+    dispatch(updateProfileStart({ userId: user?._id, variables }));
+  };
 
   const breadcrumbs = [
     <Link underline="hover" key="1" color="inherit" href="/">
@@ -56,34 +66,59 @@ const HomePageComponent: FC<any> = () => {
     <Layout>
       <main className={clsx(styles.main)}>
         <Container className={styles.container}>
-          <div className={styles.cover}></div>
+          <div className={styles.cover}>
+            {isMyProfile && (
+              <Button
+                startIcon={<CameraAltIcon />}
+                size="small"
+                className={clsx(styles.btnControlProfile, styles.btnEditCover)}
+                variant="contained"
+              >
+                Chỉnh sửa ảnh bìa
+              </Button>
+            )}
+          </div>
           <Stack className={styles.contentWrap} spacing={4} direction={{ xs: 'column', md: 'row' }}>
             <div className={styles.avatarWrap}>
               <Avatar alt={user?.name} src={user?.avatar || ''} />
+              <ButtonIcon className={styles.btnEditAvatar} icon={<CameraAltIcon />} />
               <Typography className={styles.username} variant="h1">
                 {user?.name || ''}
               </Typography>
             </div>
             <Stack spacing={0.7}>
-              <div>{user?.description}</div>
-              <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between">
-                <Stack>
-                  <div>
-                    <b>Hoạt động lần cuối:</b> 23/02/2022
-                  </div>
-                  <div>
-                    <b>37 ban chung</b>
-                  </div>
+              <div style={{ whiteSpace: 'pre-wrap' }}>{user?.description}</div>
+              {isMyProfile ? (
+                <Button
+                  startIcon={<EditIcon />}
+                  size="small"
+                  className={clsx(styles.btnControlProfile)}
+                  style={{ width: 180 }}
+                  variant="contained"
+                  onClick={toggleModalDescription}
+                >
+                  Mô tả bản thân
+                </Button>
+              ) : (
+                <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between">
+                  <Stack>
+                    <div>
+                      <b>Hoạt động lần cuối:</b> 23/02/2022
+                    </div>
+                    <div>
+                      <b>37 ban chung</b>
+                    </div>
+                  </Stack>
+                  <Stack spacing={2.5} direction="row">
+                    <Button className={styles.btnControlProfile} variant="contained">
+                      Kết bạn
+                    </Button>
+                    <Button className={styles.btnControlProfile} variant="contained">
+                      Nhắn tin
+                    </Button>
+                  </Stack>
                 </Stack>
-                <Stack spacing={2.5} direction="row">
-                  <Button className={styles.btnControlProfile} variant="contained">
-                    Kết bạn
-                  </Button>
-                  <Button className={styles.btnControlProfile} variant="contained">
-                    Nhắn tin
-                  </Button>
-                </Stack>
-              </Stack>
+              )}
             </Stack>
           </Stack>
         </Container>
@@ -91,7 +126,10 @@ const HomePageComponent: FC<any> = () => {
           <Stack className={clsx(styles.profileBody, styles.spacingContent)} spacing={4} direction="row">
             <div className={styles.profileContentLeft}>
               <Stack spacing={1} className={styles.profileContentBox}>
-                <h2>Thông tin cá nhân</h2>
+                <h2>
+                  Giới thiệu
+                  {isMyProfile && <ButtonIcon size="small" className={styles.buttonIcon} icon={<EditIcon />} />}
+                </h2>
                 <Stack direction="row">
                   <SchoolIcon sx={{ marginRight: 0.8 }} />
                   <div>
@@ -110,12 +148,21 @@ const HomePageComponent: FC<any> = () => {
                     <b>Nữ</b>
                   </div>
                 </Stack>
+                <Stack direction="row">
+                  <CakeIcon sx={{ marginRight: 0.8 }} />
+                  <div>
+                    <b>18/11/1999</b>
+                  </div>
+                </Stack>
                 <div>
                   <i>*Nếu tôi không trả lời bạn, hãy nhắn cho tôi qua: nktduong@gmail.com</i>
                 </div>
               </Stack>
               <Stack spacing={1} className={styles.profileContentBox} sx={{ marginTop: 3 }}>
-                <h2>Đôi nét về mình</h2>
+                <h2>
+                  Đôi nét về mình{' '}
+                  {isMyProfile && <ButtonIcon size="small" className={styles.buttonIcon} icon={<EditIcon />} />}
+                </h2>
                 <div className={styles.aboutMeQABox}>Nếu chúng ta lỡ không hợp nhau thì sao?</div>
                 <div className={styles.aboutMeQABox}>Điều mình tìm kiếm ở người bạn học?</div>
                 <div className={styles.aboutMeQABox}>Mình là kiểu người học như thế nào?</div>
@@ -123,12 +170,24 @@ const HomePageComponent: FC<any> = () => {
               </Stack>
             </div>
             <div className={styles.profileContentRight}>
-              <div className={styles.profileContentBox}>Them yeu cau tim ban hoc</div>
-              <Grid container sx={{ marginTop: 2 }} spacing={3}>
+              {isMyProfile && (
+                <Button
+                  startIcon={<AddCircleIcon />}
+                  className={clsx(styles.btnControlProfile)}
+                  style={{ width: 330 }}
+                  variant="contained"
+                >
+                  Thêm yêu cầu tìm bạn học
+                </Button>
+              )}
+              <Grid container sx={{ marginTop: 2 }} spacing={2}>
                 <Grid item xs={4}>
                   <div className={styles.cardSubject}>
                     <div className={styles.cardSubjectHeader}>
-                      <h3>Ôn thi IELTS cấp tốc Band 8.0</h3>
+                      <h3>
+                        Ôn thi IELTS cấp tốc Band 8.0{' '}
+                        {isMyProfile && <ButtonIcon size="small" className={styles.buttonIcon} icon={<EditIcon />} />}
+                      </h3>
                       <FormControlLabel control={<IOSSwitch sx={{ m: 1 }} defaultChecked />} label="" />
                     </div>
                     <div className={styles.cardSubjectBottom}>
@@ -150,7 +209,10 @@ const HomePageComponent: FC<any> = () => {
                 <Grid item xs={4}>
                   <div className={styles.cardSubject}>
                     <div className={styles.cardSubjectHeader}>
-                      <h3>Ôn thi IELTS cấp tốc Band 8.0</h3>
+                      <h3>
+                        Ôn thi IELTS cấp tốc Band 8.0{' '}
+                        {isMyProfile && <ButtonIcon size="small" className={styles.buttonIcon} icon={<EditIcon />} />}
+                      </h3>
                       <FormControlLabel control={<IOSSwitch sx={{ m: 1 }} defaultChecked />} label="" />
                     </div>
                     <div className={styles.cardSubjectBottom}>
@@ -172,7 +234,10 @@ const HomePageComponent: FC<any> = () => {
                 <Grid item xs={4}>
                   <div className={styles.cardSubject}>
                     <div className={styles.cardSubjectHeader}>
-                      <h3>Ôn thi IELTS cấp tốc Band 8.0</h3>
+                      <h3>
+                        Ôn thi IELTS cấp tốc Band 8.0{' '}
+                        {isMyProfile && <ButtonIcon size="small" className={styles.buttonIcon} icon={<EditIcon />} />}
+                      </h3>
                       <FormControlLabel control={<IOSSwitch sx={{ m: 1 }} defaultChecked />} label="" />
                     </div>
                     <div className={styles.cardSubjectBottom}>
@@ -194,7 +259,10 @@ const HomePageComponent: FC<any> = () => {
                 <Grid item xs={4}>
                   <div className={styles.cardSubject}>
                     <div className={styles.cardSubjectHeader}>
-                      <h3>Ôn thi IELTS cấp tốc Band 8.0</h3>
+                      <h3>
+                        Ôn thi IELTS cấp tốc Band 8.0{' '}
+                        {isMyProfile && <ButtonIcon size="small" className={styles.buttonIcon} icon={<EditIcon />} />}
+                      </h3>
                       <FormControlLabel control={<IOSSwitch sx={{ m: 1 }} defaultChecked />} label="" />
                     </div>
                     <div className={styles.cardSubjectBottom}>
@@ -218,8 +286,19 @@ const HomePageComponent: FC<any> = () => {
           </Stack>
         </Container>
       </main>
+      <Formik
+        onSubmit={onSubmitModalProfile}
+        validationSchema={validateModalDescription}
+        initialValues={initialValuesProfile}
+      >
+        <ModalDescription
+          loading={loadingUpdateProfile as any}
+          toggleModal={toggleModalDescription}
+          open={visibleModalDescription}
+        />
+      </Formik>
     </Layout>
   );
 };
 
-export default HomePageComponent;
+export default ProfilePageComponent;

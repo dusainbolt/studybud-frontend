@@ -45,6 +45,8 @@ export type User = {
 
   avatar?: string;
 
+  description?: string;
+
   phone?: string;
 
   socialType?: SocialType;
@@ -69,6 +71,7 @@ export type User = {
 export type UserSlice = {
   loadingLogin: boolean;
   loadingGetList?: boolean;
+  loadingUpdateProfile?: boolean;
   token?: string;
   user?: User;
   list?: User[];
@@ -76,6 +79,7 @@ export type UserSlice = {
 
 export type UpdateUserInput = {
   username: string;
+  description: string;
 };
 
 export type SearchUserInput = {
@@ -90,4 +94,8 @@ export type SearchUserInput = {
   orderBy?: string;
 
   sortBy?: number;
+};
+
+export type GetUserInput = {
+  credential: string;
 };

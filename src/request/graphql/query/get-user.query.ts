@@ -1,10 +1,10 @@
 import { gql } from '@apollo/client';
 import { graphQLReq } from '@request/graphql';
-import { SearchUserInput } from '@type/user';
+import { GetUserInput } from '@type/user';
 
 const query = gql`
-  query SearchUser($input: SearchUserInput!) {
-    searchUser(input: $input) {
+  query GetUser($input: GetUserInput!) {
+    getUser(input: $input) {
       _id
       avatar
       birthday
@@ -26,6 +26,6 @@ const query = gql`
   }
 `;
 
-export const searchUserQuery = async (variables: SearchUserInput = {}): Promise<any> => {
-  return await graphQLReq.query(query, { input: variables }, 'searchUser');
+export const getUserQuery = async (variables: GetUserInput): Promise<any> => {
+  return await graphQLReq.query(query, { input: variables }, 'getUser');
 };

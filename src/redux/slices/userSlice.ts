@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
-import { GetListUserSuccessAction, VerifyOAuth2Action, VerifyOAuthSuccess2Action } from '@redux/actions/userAction';
+import {
+  GetListUserSuccessAction,
+  UpdateProfileAction,
+  UpdateProfileSuccessAction,
+  VerifyOAuth2Action,
+  VerifyOAuthSuccess2Action,
+} from '@redux/actions/userAction';
 import { getPersistConfig } from '@redux/storage';
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import { UserSlice } from '@type/user';
@@ -32,6 +38,16 @@ const userSlice = createSlice({
     },
     verifyOAuth2Error: (state: UserSlice) => {
       state.loadingLogin = false;
+    },
+    updateProfileStart: (state: UserSlice, { payload }: UpdateProfileAction) => {
+      state.loadingUpdateProfile = !!payload.userId;
+    },
+    updateProfileSuccess: (state: UserSlice, { payload }: UpdateProfileSuccessAction) => {
+      state.loadingUpdateProfile = false;
+      state.user = payload;
+    },
+    updateProfileError: (state: UserSlice) => {
+      state.loadingUpdateProfile = false;
     },
     // getListUserStart
     getListUserStart: (state: UserSlice) => {
@@ -65,6 +81,9 @@ export const {
   verifyOAuth2Start,
   verifyOAuth2Success,
   verifyOAuth2Error,
+  updateProfileStart,
+  updateProfileSuccess,
+  updateProfileError,
   getListUserStart,
   getListUserSuccess,
   getListUserError,

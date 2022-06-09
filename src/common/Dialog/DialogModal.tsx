@@ -6,14 +6,18 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
+import { defaultStyle } from '@styles/theme';
 import { FC, ReactNode, useEffect, useState } from 'react';
+// import { number } from 'yup';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
-    padding: theme.spacing(2),
+    padding: theme.spacing(4),
+    borderTop: '1px solid #000000',
+    borderBottom: '1px solid #000000',
   },
   '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
+    padding: `${theme.spacing(1)} ${theme.spacing(4)}`,
   },
 }));
 
@@ -27,17 +31,20 @@ const CustomDialogTitle = (props: DialogTitleProps) => {
   const { children, onClose, ...other } = props;
 
   return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+    <DialogTitle sx={{ m: 0, p: 2, textAlign: 'center', fontWeight: 700 }} {...other}>
       {children}
       {onClose ? (
         <IconButton
           aria-label="close"
           onClick={onClose}
           sx={{
+            ...defaultStyle.btnStyle('#000000'),
+            color: '#ffffff',
             position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
+            // top: 8,
+            // right: 8,
+            right: (theme) => theme.spacing(2),
+            top: (theme) => theme.spacing(1),
           }}
         >
           <CloseIcon />
@@ -51,6 +58,7 @@ interface DialogModalProps extends DialogProps {
   id: string;
   title?: string;
   onCloseModal: any;
+  width?: number;
   content?: ReactNode;
   action?: ReactNode;
   loadContent?: boolean;
@@ -61,6 +69,7 @@ export const DialogModal: FC<DialogModalProps> = ({
   loadContent,
   title = 'Modal Title',
   onCloseModal,
+  width = 500,
   content = '',
   action = '',
   ...otherProps
@@ -90,8 +99,20 @@ export const DialogModal: FC<DialogModalProps> = ({
           <CircularProgressCustom color="inherit" />
         </Backdrop>
       ) : (
-        <BootstrapDialog onClose={handleClose} aria-labelledby={id} {...otherProps}>
-          <CustomDialogTitle id={id} onClose={handleClose}>
+        <BootstrapDialog
+          onClose={handleClose}
+          aria-labelledby={id}
+          sx={{
+            '& .MuiDialog-container': {
+              '& .MuiPaper-root': {
+                width: '100%',
+                maxWidth: width, // Set your width here
+              },
+            },
+          }}
+          {...otherProps}
+        >
+          <CustomDialogTitle id={id} onClose={onCloseModal && handleClose}>
             {title}
           </CustomDialogTitle>
           <DialogContent dividers>{content}</DialogContent>

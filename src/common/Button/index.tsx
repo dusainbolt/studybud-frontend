@@ -1,23 +1,25 @@
 import { LoadingButton, LoadingButtonProps } from '@mui/lab';
-import { Tooltip } from '@mui/material';
+import { SxProps, Theme, Tooltip } from '@mui/material';
 import { FC } from 'react';
 
 export interface ButtonProps extends LoadingButtonProps {
   helpText?: string;
   triggerLogin?: any;
+  sx?: SxProps<Theme>;
 }
 
-export const Button: FC<ButtonProps> = ({ children, triggerLogin, onClick, helpText = '', ...props }) => {
+export const Button: FC<ButtonProps> = ({ children, triggerLogin, onClick, helpText = '', sx, ...props }) => {
   const button = (
     <LoadingButton
       {...props}
       sx={{
         borderRadius: 22,
-        height: 52,
         fontWeight: 600,
-        fontSize: 24,
+        fontSize: 18,
+        height: 44,
         textTransform: 'initial',
         padding: '10px 24px',
+        ...sx,
       }}
       onClick={triggerLogin || onClick}
     >

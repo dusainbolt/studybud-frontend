@@ -20,6 +20,8 @@ import Validate from '@utils/validate';
 import * as yup from 'yup';
 import { Formik } from 'formik';
 import { UpdateUserInput } from '@type/user';
+import { genderObj, GenderOptions, ModalBasicInfo } from './ModalEditProfile/ModalBasicInfo';
+import Helper from '@utils/helper';
 
 const ProfilePageComponent: FC<{
   isMyProfile: boolean;
@@ -27,20 +29,30 @@ const ProfilePageComponent: FC<{
   const styles = profilePageStyle();
   const { user, loadingUpdateProfile } = useAppSelector(getUserSlice);
   const [visibleModalDescription, setVisibleModalDescription] = useState<boolean>(false);
+  const [visibleModalBasicInfo, setVisibleModalBasicInfo] = useState<boolean>(false);
+
   const dispatch = useAppDispatch();
   const initialValuesProfile: UpdateUserInput = {
     username: user?.username || '',
     description: user?.description || '',
+    name: user?.name || '',
   };
 
   const validateModalDescription = yup.object({
     description: yup.string().required(Validate.require('Mô tả')),
+    username: yup.string().required(Validate.require('username')),
+    name: yup.string().required(Validate.require('Tên hiển thị')),
+
     // .min(4, Validate.during(4, 12))
     // .max(12, Validate.during(4, 12)),
   });
 
   const toggleModalDescription = () => {
     setVisibleModalDescription((visible) => !visible);
+  };
+
+  const toggleModalBasicInfo = () => {
+    setVisibleModalBasicInfo((visible) => !visible);
   };
 
   const onSubmitModalProfile = (variables: UpdateUserInput) => {
@@ -85,8 +97,9 @@ const ProfilePageComponent: FC<{
               <Typography className={styles.username} variant="h1">
                 {user?.name || ''}
               </Typography>
+              <Typography variant="body1">@{user?.username || ''}</Typography>
             </div>
-            <Stack spacing={0.7}>
+            <Stack spacing={0.7} sx={{ width: '100%' }}>
               <div style={{ whiteSpace: 'pre-wrap' }}>{user?.description}</div>
               {isMyProfile ? (
                 <Button
@@ -128,24 +141,31 @@ const ProfilePageComponent: FC<{
               <Stack spacing={1} className={styles.profileContentBox}>
                 <h2>
                   Giới thiệu
-                  {isMyProfile && <ButtonIcon size="small" className={styles.buttonIcon} icon={<EditIcon />} />}
+                  {isMyProfile && (
+                    <ButtonIcon
+                      onClick={toggleModalBasicInfo}
+                      size="small"
+                      className={styles.buttonIcon}
+                      icon={<EditIcon />}
+                    />
+                  )}
                 </h2>
                 <Stack direction="row">
                   <SchoolIcon sx={{ marginRight: 0.8 }} />
                   <div>
-                    Học tại <b>Fulbright University Vietnam</b>
+                    Học tại <b>{user?.school}</b>
                   </div>
                 </Stack>
                 <Stack direction="row">
                   <HomeIcon sx={{ marginRight: 0.8 }} />
                   <div>
-                    Đến từ <b>TP.Hồ Chí Minh</b>
+                    Đến từ <b>{user?.address}</b>
                   </div>
                 </Stack>
                 <Stack direction="row">
                   <FemaleIcon sx={{ marginRight: 0.8 }} />
                   <div>
-                    <b>Nữ</b>
+                    <b>{Helper.getLabelByOptions(GenderOptions, user?.gender)}</b>
                   </div>
                 </Stack>
                 <Stack direction="row">
@@ -155,7 +175,7 @@ const ProfilePageComponent: FC<{
                   </div>
                 </Stack>
                 <div>
-                  <i>*Nếu tôi không trả lời bạn, hãy nhắn cho tôi qua: nktduong@gmail.com</i>
+                  <i>*Nếu tôi không trả lời bạn, hãy nhắn cho tôi qua: {user?.contact}</i>
                 </div>
               </Stack>
               <Stack spacing={1} className={styles.profileContentBox} sx={{ marginTop: 3 }}>
@@ -291,11 +311,18 @@ const ProfilePageComponent: FC<{
         validationSchema={validateModalDescription}
         initialValues={initialValuesProfile}
       >
-        <ModalDescription
-          loading={loadingUpdateProfile as any}
-          toggleModal={toggleModalDescription}
-          open={visibleModalDescription}
-        />
+        <>
+          <ModalDescription
+            loading={loadingUpdateProfile as any}
+            toggleModal={toggleModalDescription}
+            open={visibleModalDescription}
+          />
+          <ModalBasicInfo
+            loading={loadingUpdateProfile as any}
+            toggleModal={toggleModalBasicInfo}
+            open={visibleModalBasicInfo}
+          />
+        </>
       </Formik>
     </Layout>
   );

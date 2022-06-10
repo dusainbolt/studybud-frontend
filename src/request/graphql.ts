@@ -7,20 +7,19 @@ import Constant from '@utils/constant';
 import { DocumentNode } from 'graphql';
 import { toast } from 'react-toastify';
 
-const errorLink = onError(({ graphQLErrors, networkError }) => {
+const errorLink = onError(({ graphQLErrors, networkError, ...props }) => {
   if (graphQLErrors) {
     const error = graphQLErrors[0];
-    if (error.message === 'Bad Request Exception') {
-      //   console.log('graphQLErrors: ', graphQLErrors);
-      toast.error((error.extensions as any).exception.response.message[0]);
-    } else {
-      //   console.log('ERROR');
-    }
-  }
-
-  if (networkError) {
-    // handle network error
+    // if (error.message === 'Bad Request Exception') {
+    //   toast.error((error.extensions as any).exception.response.message[0]);
+    // } else {
+    //   toast.error((props as any)?.response?.errors[0]?.message);
+    // }
+    toast.error(error.message);
+  } else if (networkError) {
     toast.error('networkError');
+  } else {
+    toast.error((props as any)?.response?.errors[0]?.message);
   }
 });
 

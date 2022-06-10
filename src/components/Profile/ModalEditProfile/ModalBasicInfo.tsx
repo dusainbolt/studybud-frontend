@@ -1,15 +1,31 @@
 import { Button } from '@common/Button';
 import { DialogModal } from '@common/Dialog/DialogModal';
 import FieldText from '@common/Form/FieldInput';
+import FieldRadioBox from '@common/Form/FieldRadioBox';
+import FieldSelect from '@common/Form/FieldSelect';
 import { DialogActions } from '@mui/material';
 import { defaultStyle } from '@styles/theme';
 import { Restrict } from '@type/field';
+import { Gender } from '@type/user';
+import Helper from '@utils/helper';
+import { provinces } from '@utils/provinces';
 import { Field, useFormikContext } from 'formik';
 import { FC } from 'react';
 
-// interface ModalDescriptionProps {}
+// interface ModalBasicInfoProps {}
 
-export const ModalDescription: FC<{
+export const GenderOptions = [
+  {
+    label: 'Nam',
+    value: Gender.MALE,
+  },
+  {
+    label: 'Nữ',
+    value: Gender.FEMALE,
+  },
+];
+
+export const ModalBasicInfo: FC<{
   open: boolean;
   toggleModal: any;
   loading: boolean;
@@ -19,9 +35,9 @@ export const ModalDescription: FC<{
     <DialogModal
       onCloseModal={loading ? false : toggleModal}
       width={800}
-      id="modal-description"
+      id="modal-basic-info"
       open={open}
-      title="MÔ TẢ BẢN THÂN"
+      title="THÔNG TIN CÁ NHÂN"
       action={
         <DialogActions>
           <Button
@@ -40,28 +56,25 @@ export const ModalDescription: FC<{
       content={
         <div>
           <Field
-            name="username"
+            name="school"
             component={FieldText}
             required
-            label="Username (bắt buộc)"
+            label="Học tại (bắt buộc)"
             restric={Restrict.DISALLOW_SPECIAL_CHAR}
           />
           <Field
-            name="name"
-            component={FieldText}
-            required
-            label="Tên hiển thị (bắt buộc)"
-            restric={Restrict.DISALLOW_SPECIAL_CHAR}
+            name="address"
+            component={FieldSelect}
+            options={provinces.map((item) => ({ value: item.name, label: item.name }))}
+            label="Đến từ (bắt buộc)"
           />
+          <Field name="gender" component={FieldRadioBox} options={GenderOptions} label="Giới tính (bắt buộc)" />
           <Field
-            name="description"
+            name="contact"
             component={FieldText}
-            multiline
-            minRows={4}
-            label="Mô tả (bắt buộc)"
+            placeholder="URL mạng xã hội, email"
             required
-            placeholder="Bạn là ai?&#10;Lĩnh vực mà bạn quan tâm&#10;Nhu cầu tìm bạn học của bạn"
-            // restric={Restrict.DISALLOW_SPECIAL_CHAR}
+            label="Thông tin liên lạc (bắt buộc)"
           />
         </div>
       }

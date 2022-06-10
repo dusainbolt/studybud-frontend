@@ -49,6 +49,12 @@ export type User = {
 
   phone?: string;
 
+  contact?: string;
+
+  address?: string;
+
+  school?: string;
+
   socialType?: SocialType;
 
   socialId?: string;
@@ -80,6 +86,7 @@ export type UserSlice = {
 export type UpdateUserInput = {
   username: string;
   description: string;
+  name: string;
 };
 
 export type SearchUserInput = {

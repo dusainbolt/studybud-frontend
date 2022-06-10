@@ -1,23 +1,12 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { FormControl, FormHelperText, Select } from '@mui/material';
-import MenuItem from '@mui/material/MenuItem';
-import { makeStyles } from '@mui/styles';
+import { FormControl, FormControlLabel, FormHelperText, FormLabel, Radio, RadioGroup } from '@mui/material';
 import { OptionSelect } from '@type/field';
 import Helper from '@utils/helper';
 import clsx from 'clsx';
 import { FieldInputProps, FieldMetaProps, useFormikContext } from 'formik';
 import { FC } from 'react';
 
-export const fieldSelectStyle = makeStyles({
-  label: {
-    top: -7,
-    '&.MuiInputLabel-shrink': {
-      top: 0,
-    },
-  },
-});
-
-export interface FieldSelectType {
+export interface FieldRadioBoxType {
   label?: string;
   // prefix?: any;
   // suffix?: any;
@@ -31,16 +20,16 @@ export interface FieldSelectType {
   meta?: FieldMetaProps<any>;
 }
 
-const FieldSelect: FC<FieldSelectType> = ({ label, options, className, field }) => {
+const FieldRadioBox: FC<FieldRadioBoxType> = ({ label, options, className, field }) => {
   const { touched, errors, setFieldValue } = useFormikContext();
   const fieldTouch: boolean = Helper.objValue(touched, field?.name);
   const fieldError: string = Helper.objValue(errors, field?.name);
   const isError: boolean = fieldTouch && Boolean(fieldError);
 
-  // const styles = fieldSelectStyle();
+  // const styles = FieldRadioBoxStyle();
 
   const handleChange = (event) => {
-    setFieldValue(field?.name as string, event.target.value);
+    setFieldValue(field?.name as string, parseInt(event.target.value, 10));
   };
 
   // label = `${label}${required && ' *'}`;
@@ -48,33 +37,24 @@ const FieldSelect: FC<FieldSelectType> = ({ label, options, className, field }) 
   return (
     <div style={{ marginTop: 12 }} className={clsx(className)}>
       <FormControl error={isError} fullWidth>
-        {/* <InputLabel className={styles.label} id={`${field?.name}-label`}>
-          {label}
-        </InputLabel> */}
+        {/* <FormLabel id="demo-radio-buttons-group-label">{label}</FormLabel> */}
         {label && <label style={{ fontWeight: 600 }}>{label}</label>}
-        <Select
-          labelId={`${field?.name}-label`}
-          id={field?.name}
+        <RadioGroup
           name={field?.name}
-          size="small"
-          value={field?.value}
-          // placeholder={placeholder}
-          // label={label}
+          value={field?.value?.toString()}
           onChange={handleChange}
-          // inputProps={{
-          //   required,
-          // }}
+          // aria-labelledby="demo-radio-buttons-group-label"
+          // defaultValue="female"
+          // name="radio-buttons-group"
         >
-          {options?.map((item, index) => (
-            <MenuItem key={index} value={item.value}>
-              {item.label}
-            </MenuItem>
+          {options.map((item, index) => (
+            <FormControlLabel key={index} value={item.value} label={item.label} control={<Radio size="small" />} />
           ))}
-        </Select>
+        </RadioGroup>
         {fieldTouch && fieldError && <FormHelperText>{fieldError}</FormHelperText>}
       </FormControl>
     </div>
   );
 };
 
-export default FieldSelect;
+export default FieldRadioBox;

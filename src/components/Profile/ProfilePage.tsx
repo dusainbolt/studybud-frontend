@@ -1,27 +1,28 @@
-import { Layout } from '@common/Layout';
-import { Container, Stack, Avatar, Typography, Grid, FormControlLabel, Breadcrumbs, Link } from '@mui/material';
-import clsx from 'clsx';
-import { FC, useState } from 'react';
-import { profilePageStyle } from './ProfilePageStyle';
-import { useAppDispatch, useAppSelector } from '@redux/store';
-import { getUserSlice, updateProfileStart } from '@redux/slices/userSlice';
 import { Button } from '@common/Button';
 import { ButtonIcon } from '@common/Button/ButtonIcon';
-import SchoolIcon from '@mui/icons-material/School';
-import HomeIcon from '@mui/icons-material/Home';
-import FemaleIcon from '@mui/icons-material/Female';
+import { Layout } from '@common/Layout';
 import { IOSSwitch } from '@common/Switch/IOSSwitch';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import CakeIcon from '@mui/icons-material/Cake';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import EditIcon from '@mui/icons-material/Edit';
-import CakeIcon from '@mui/icons-material/Cake';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { ModalDescription } from './ModalEditProfile/ModalDescription';
-import Validate from '@utils/validate';
-import * as yup from 'yup';
-import { Formik } from 'formik';
-import { UpdateUserInput } from '@type/user';
-import { genderObj, GenderOptions, ModalBasicInfo } from './ModalEditProfile/ModalBasicInfo';
+import FemaleIcon from '@mui/icons-material/Female';
+import MaleIcon from '@mui/icons-material/Male';
+import HomeIcon from '@mui/icons-material/Home';
+import SchoolIcon from '@mui/icons-material/School';
+import { Avatar, Breadcrumbs, Container, FormControlLabel, Grid, Link, Stack, Typography } from '@mui/material';
+import { getUserSlice, updateProfileStart } from '@redux/slices/userSlice';
+import { useAppDispatch, useAppSelector } from '@redux/store';
+import { Gender, UpdateUserInput } from '@type/user';
 import Helper from '@utils/helper';
+import Validate from '@utils/validate';
+import clsx from 'clsx';
+import { Formik } from 'formik';
+import { FC, useState } from 'react';
+import * as yup from 'yup';
+import { GenderOptions, ModalBasicInfo } from './ModalEditProfile/ModalBasicInfo';
+import { ModalDescription } from './ModalEditProfile/ModalDescription';
+import { profilePageStyle } from './ProfilePageStyle';
 
 const ProfilePageComponent: FC<{
   isMyProfile: boolean;
@@ -36,6 +37,10 @@ const ProfilePageComponent: FC<{
     username: user?.username || '',
     description: user?.description || '',
     name: user?.name || '',
+    address: user?.address || '',
+    school: user?.school || '',
+    contact: user?.contact || '',
+    gender: user?.gender || Gender.MALE,
   };
 
   const validateModalDescription = yup.object({
@@ -163,7 +168,11 @@ const ProfilePageComponent: FC<{
                   </div>
                 </Stack>
                 <Stack direction="row">
-                  <FemaleIcon sx={{ marginRight: 0.8 }} />
+                  {user?.gender === Gender.FEMALE ? (
+                    <FemaleIcon sx={{ marginRight: 0.8 }} />
+                  ) : (
+                    <MaleIcon sx={{ marginRight: 0.8 }} />
+                  )}
                   <div>
                     <b>{Helper.getLabelByOptions(GenderOptions, user?.gender)}</b>
                   </div>

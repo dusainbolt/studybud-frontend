@@ -87,6 +87,10 @@ export type UpdateUserInput = {
   username: string;
   description: string;
   name: string;
+  school: string;
+  address: string;
+  gender: Gender;
+  contact: string;
 };
 
 export type SearchUserInput = {

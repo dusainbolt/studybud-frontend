@@ -1,14 +1,21 @@
+import { AppPopover } from '@common/Popover';
 import MessageIcon from '@mui/icons-material/Message';
-import { Avatar, Badge, Stack } from '@mui/material';
-import { headerStyle } from './headerStyle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import { useAppSelector } from '@redux/store';
-import { getUserSlice } from '@redux/slices/userSlice';
+import PersonIcon from '@mui/icons-material/Person';
+import { Avatar, Badge, MenuItem, MenuList, Stack } from '@mui/material';
+import { getUserSlice, logout } from '@redux/slices/userSlice';
+import { useAppDispatch, useAppSelector } from '@redux/store';
+import { headerStyle } from './headerStyle';
 
 export const Header = () => {
   const styles = headerStyle();
   const user = useAppSelector(getUserSlice).user;
+
+  const dispatch = useAppDispatch();
+  const onClickLogout = () => {
+    dispatch(logout());
+  };
 
   return (
     <header className={styles.header}>
@@ -24,7 +31,23 @@ export const Header = () => {
           <Badge color="primary" badgeContent={100} max={99}>
             <NotificationsIcon />
           </Badge>
-          <Avatar alt={user?.name} src={user?.avatar || ''} />
+          <AppPopover
+            content={
+              <MenuList>
+                <MenuItem sx={{ p: 1 }}>
+                  <PersonIcon />
+                  Trang có nhân
+                </MenuItem>
+                <MenuItem sx={{ p: 1 }} onClick={onClickLogout}>
+                  <PersonIcon />
+                  Đăng xuất
+                </MenuItem>
+              </MenuList>
+            }
+            name="profile"
+          >
+            <Avatar alt={user?.name} src={user?.avatar || ''} />
+          </AppPopover>
         </Stack>
       </Stack>
     </header>

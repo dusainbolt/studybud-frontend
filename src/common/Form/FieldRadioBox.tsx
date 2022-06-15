@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { FormControl, FormControlLabel, FormHelperText, FormLabel, Radio, RadioGroup } from '@mui/material';
+import { FormControl, FormControlLabel, FormHelperText, Radio, RadioGroup } from '@mui/material';
 import { OptionSelect } from '@type/field';
 import Helper from '@utils/helper';
 import clsx from 'clsx';

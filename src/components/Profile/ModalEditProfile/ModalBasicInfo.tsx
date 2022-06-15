@@ -7,7 +7,6 @@ import { DialogActions } from '@mui/material';
 import { defaultStyle } from '@styles/theme';
 import { Restrict } from '@type/field';
 import { Gender } from '@type/user';
-import Helper from '@utils/helper';
 import { provinces } from '@utils/provinces';
 import { Field, useFormikContext } from 'formik';
 import { FC } from 'react';

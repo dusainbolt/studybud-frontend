@@ -11,15 +11,14 @@ import '@styles/globals.css';
 import { createEmotionCache, getThemeConfig } from '@styles/theme';
 import Constant from '@utils/constant';
 import { AppProps } from 'next/app';
-import Head from 'next/head';
-import 'react-toastify/dist/ReactToastify.css';
 import { createContext, FC, useEffect, useMemo, useState } from 'react';
+import 'react-toastify/dist/ReactToastify.css';
 //@ts-ignore
+import { UserSlice } from '@type/user';
 import { useStore } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 import { Store } from 'redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { ToastContainer } from 'react-toastify';
-import { UserSlice } from '@type/user';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -83,10 +82,6 @@ const MyApp: FC<MyAppProps> = (props: MyAppProps) => {
 
   return (
     <CacheProvider value={emotionCache}>
-      <Head>
-        <title>My App</title>
-        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
-      </Head>
       <ThemeContext.Provider value={mode}>
         <ColorModeContext.Provider value={colorMode}>
           <ThemeProvider theme={theme}>

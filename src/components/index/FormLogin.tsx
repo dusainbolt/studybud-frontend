@@ -1,32 +1,27 @@
 import { Button } from '@common/Button';
 import FieldText from '@common/Form/FieldInput';
 import { Divider, Grid, NoSsr, Stack } from '@mui/material';
+import { getUserSlice } from '@redux/slices/userSlice';
+import { useAppSelector } from '@redux/store';
 import { defaultStyle } from '@styles/theme';
 import Constant from '@utils/constant';
-import { Field } from 'formik';
+import { Field, useFormikContext } from 'formik';
 import SocialLogin, { Provider } from 'react-social-login';
 
 const SocialButton = SocialLogin(Button);
 
 export const FormLogin = () => {
-  // const { handleSubmit } = useFormikContext();
+  const { handleSubmit } = useFormikContext();
+  const { loadingLogin } = useAppSelector(getUserSlice);
   return (
     <Stack>
       <Field
-        name="username"
+        name="credential"
         placeholder="Nhập email / tên đăng nhập"
         label="Email/ Tên đăng nhập"
         component={FieldText}
-        required
       />
-      <Field
-        name="username"
-        placeholder="Nhập Mật khẩu"
-        label="Mật khẩu"
-        component={FieldText}
-        type="password"
-        required
-      />
+      <Field name="password" placeholder="Nhập Mật khẩu" label="Mật khẩu" component={FieldText} type="password" />
       <Stack direction="row" justifyContent="end" spacing={1}>
         <a style={{ textAlign: 'right', display: 'block', marginTop: 4, textDecoration: 'underline' }} href="/register">
           Đăng ký
@@ -41,7 +36,12 @@ export const FormLogin = () => {
           Quên mật khẩu
         </a>
       </Stack>
-      <Button sx={{ width: '100%', mt: 5, mb: 3, ...defaultStyle.btnStyle('#4D4D4D') }} variant="contained">
+      <Button
+        loading={loadingLogin}
+        onClick={handleSubmit as any}
+        sx={{ width: '100%', mt: 5, mb: 3, ...defaultStyle.btnStyle('#4D4D4D') }}
+        variant="contained"
+      >
         ĐĂNG NHẬP
       </Button>
       <Divider sx={{ lineHeight: 0 }}>Hoặc đăng nhập bằng</Divider>

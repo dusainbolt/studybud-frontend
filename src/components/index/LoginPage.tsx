@@ -2,34 +2,37 @@ import { Stack, Typography } from '@mui/material';
 import { Formik } from 'formik';
 import { FC } from 'react';
 import { FormLogin } from './FormLogin';
-
-// const SocialButton = SocialLogin(Button);
+import * as yup from 'yup';
+import { useAppDispatch } from '@redux/store';
+import Validate from '@utils/validate';
+import { LoginUserInput } from '@type/user';
+import { loginStart } from '@redux/slices/userSlice';
 
 const LoginPage: FC<any> = () => {
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   // const { loadingLogin } = useAppSelector(getUserSlice);
 
-  // const handleSocialLogin = (userSocial) => {
-  //   console.log('userSocial: ', userSocial);
-  //   const propNameToken = Constant.social.TOKEN[userSocial.provider] || '';
-  //   dispatch(
-  //     verifyOAuth2Start({
-  //       access_token: userSocial?.token[propNameToken] as string,
-  //       type: Constant.social.TYPE[userSocial.provider],
-  //     })
-  //   );
-  // };
+  const initialValuesLogin: LoginUserInput = {
+    credential: '',
+    password: '',
+  };
 
-  // const handleSocialLoginFailure = (err) => {
-  //   toast.error(err?.toString());
-  // };
+  const validateLogin = yup.object({
+    credential: yup.string().required(Validate.require('Email/ Tên đăng nhập')),
+    password: yup.string().required(Validate.require('Mật khẩu')),
+  });
+
+  const onSubmitLogin = (values) => {
+    // delete values.rePassword;
+    dispatch(loginStart(values));
+  };
 
   return (
     <main>
       <Stack direction={{ xs: 'column', sm: 'row' }}>
         <Stack
           sx={{
-            height: '100vh',
+            minHeight: '100vh',
             width: { xs: '100%', sm: '45%' },
             backgroundImage: `url('/images/background-login.png')`,
           }}
@@ -37,7 +40,7 @@ const LoginPage: FC<any> = () => {
           justifyContent="center"
         >
           <Typography sx={{ fontWeight: 700, fontSize: 70 }} variant="h1" align="center">
-            LOGO
+            STUDYBUD
           </Typography>
         </Stack>
         <Stack alignItems="center" sx={{ width: '55%' }} justifyContent="center">
@@ -48,43 +51,12 @@ const LoginPage: FC<any> = () => {
             <Typography variant="body1" align="center" sx={{ mb: 3 }}>
               <b>Studybud</b> nền tảng tìm kiếm bạn học số 1 Việt Nam
             </Typography>
-            <Formik onSubmit={(values) => console.log('1`3`1')} validationSchema={{}} initialValues={{}}>
+            <Formik onSubmit={onSubmitLogin} validationSchema={validateLogin} initialValues={initialValuesLogin}>
               <FormLogin />
             </Formik>
           </div>
         </Stack>
       </Stack>
-      {/* <Container maxWidth="lg">
-        Dang Nhap
-        <div>
-          <ButtonTheme />
-          <img
-            src="https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=1363630274121334&height=50&width=50&ext=1656118945&hash=AeTC80A3q6WFtQhD8hQ"
-            alt=""
-          />
-        </div>
-      </Container> */}
-      {/* <NoSsr>
-        <SocialButton
-          provider={Constant.social.PROVIDE_FACEBOOK as Provider}
-          appId={process.env.NEXT_PUBLIC_FACEBOOK_APP_ID as any}
-          onLoginSuccess={handleSocialLogin}
-          onLoginFailure={handleSocialLoginFailure}
-          loading={loadingLogin}
-        >
-          Dang nhap voi Facebook
-        </SocialButton>
-
-        <SocialButton
-          provider={Constant.social.PROVIDE_GOOGLE as Provider}
-          appId={process.env.NEXT_PUBLIC_GOOGLE_APP_ID as any}
-          onLoginSuccess={handleSocialLogin}
-          onLoginFailure={handleSocialLoginFailure}
-          loading={loadingLogin}
-        >
-          Dang nhap voi Google
-        </SocialButton>
-      </NoSsr> */}
     </main>
   );
 };

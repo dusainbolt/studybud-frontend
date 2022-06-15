@@ -47,9 +47,6 @@ const ProfilePageComponent: FC<{
     description: yup.string().required(Validate.require('Mô tả')),
     username: yup.string().required(Validate.require('username')),
     name: yup.string().required(Validate.require('Tên hiển thị')),
-
-    // .min(4, Validate.during(4, 12))
-    // .max(12, Validate.during(4, 12)),
   });
 
   const toggleModalDescription = () => {

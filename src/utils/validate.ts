@@ -3,6 +3,8 @@ export default class Validate {
 
   static email = () => `Vui lòng nhập địa chỉ email hợp lệ`;
 
+  static username = (fieldName?: string) => `${fieldName} chỉ cho phép nhập các ký tự [a-zA-Z0-9_]`;
+
   static min = (value: number) => `Bạn phải nhập ít nhất ${value} ký tự`;
 
   static during = (min: number, max: number) => `Bạn phải nhập từ ${min} đến ${max} ký tự`;

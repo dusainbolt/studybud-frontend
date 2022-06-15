@@ -8,3 +8,7 @@ export const verifyFacebookAPI = async (params: VerifyOAuth2Params) => {
 export const verifyGoogleAPI = async (params: VerifyOAuth2Params) => {
   return await axios.get(`/auth/google/${params.access_token}`);
 };
+
+export const verifyTokenAPI = async (token: string) => {
+  return await axios.get(`/auth/register/${token}`);
+};

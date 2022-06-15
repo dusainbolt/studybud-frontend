@@ -12,12 +12,12 @@ export interface FieldTextType {
   suffix?: any;
   className?: string;
   restric: Restrict;
-  required?: boolean;
+  // required?: boolean;
   field?: FieldInputProps<any>;
   meta?: FieldMetaProps<any>;
 }
 
-const FieldText: FC<FieldTextType> = ({ label, className, field, required, restric, ...props }) => {
+const FieldText: FC<FieldTextType> = ({ label, className, field, restric, ...props }) => {
   const { touched, errors, setFieldValue } = useFormikContext();
   const fieldTouch: boolean = Helper.objValue(touched, field?.name);
   const fieldError: string = Helper.objValue(errors, field?.name);
@@ -32,15 +32,15 @@ const FieldText: FC<FieldTextType> = ({ label, className, field, required, restr
   };
 
   return (
-    <div className={clsx(className)}>
-      {label && <label>{label}</label>}
+    <div style={{ marginTop: 12 }} className={clsx(className)}>
+      {label && <label style={{ fontWeight: 600 }}>{label}</label>}
       <TextField
         fullWidth
         id={field?.name}
         name={field?.name}
         // label={label || Constant.form.UNKNOWN_LABEL}
         value={field?.value}
-        required={required}
+        // required={required}
         onChange={onChangeInput as any}
         error={isError}
         size="small"

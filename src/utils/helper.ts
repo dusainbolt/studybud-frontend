@@ -1,3 +1,5 @@
+import { OptionSelect } from '@type/field';
+
 export default class Helper {
   static objValue = (object: any, key: any): any => {
     return object[key];
@@ -10,4 +12,13 @@ export default class Helper {
     if (hex?.length < numStart + numEnd) return hex;
     return `${hex?.substring(0, numStart)}...${hex.substring(hex.length - numEnd)}`;
   };
+
+  static getLabelByOptions = (options: OptionSelect[], value) => {
+    if (typeof value === 'undefined' || value === null) return '';
+    return options.find((item) => item.value === value)?.label || '';
+  };
+
+  // static genOptionsByObj = (obj) => {
+  //   return Object.entries(obj).map(([key, value]) => ({ value: key, label: value }));
+  // };
 }

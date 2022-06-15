@@ -2,10 +2,15 @@
 /* eslint-disable no-unused-vars */
 import {
   GetListUserSuccessAction,
+  LoginAction,
+  LoginActionSuccess,
+  RegisterAction,
+  RegisterActionSuccess,
   UpdateProfileAction,
   UpdateProfileSuccessAction,
   VerifyOAuth2Action,
   VerifyOAuthSuccess2Action,
+  VerifyTokenAction,
 } from '@redux/actions/userAction';
 import { getPersistConfig } from '@redux/storage';
 import { createAction, createSlice } from '@reduxjs/toolkit';
@@ -37,6 +42,38 @@ const userSlice = createSlice({
       state.user = { ...payload.user };
     },
     verifyOAuth2Error: (state: UserSlice) => {
+      state.loadingLogin = false;
+    },
+    verifyTokenStart: (state: UserSlice, { payload }: VerifyTokenAction) => {
+      state.loadingLogin = !!payload;
+    },
+    verifyTokenSuccess: (state: UserSlice, { payload }: VerifyOAuthSuccess2Action) => {
+      state.loadingLogin = false;
+      state.token = payload.token;
+      state.user = { ...payload.user };
+    },
+    verifyTokenError: (state: UserSlice) => {
+      state.loadingLogin = false;
+    },
+    registerStart: (state: UserSlice, { payload }: RegisterAction) => {
+      state.loadingLogin = !!payload.name;
+    },
+    registerSuccess: (state: UserSlice, { payload }: RegisterActionSuccess) => {
+      state.loadingLogin = false;
+      state.registerEmail = payload;
+    },
+    registerError: (state: UserSlice) => {
+      state.loadingLogin = false;
+    },
+    loginStart: (state: UserSlice, { payload }: LoginAction) => {
+      state.loadingLogin = !!payload.credential;
+    },
+    loginSuccess: (state: UserSlice, { payload }: LoginActionSuccess) => {
+      state.loadingLogin = false;
+      state.token = payload.token;
+      state.user = payload.user;
+    },
+    loginError: (state: UserSlice) => {
       state.loadingLogin = false;
     },
     updateProfileStart: (state: UserSlice, { payload }: UpdateProfileAction) => {
@@ -81,6 +118,15 @@ export const {
   verifyOAuth2Start,
   verifyOAuth2Success,
   verifyOAuth2Error,
+  verifyTokenStart,
+  verifyTokenSuccess,
+  verifyTokenError,
+  registerStart,
+  registerSuccess,
+  registerError,
+  loginStart,
+  loginSuccess,
+  loginError,
   updateProfileStart,
   updateProfileSuccess,
   updateProfileError,

@@ -49,6 +49,12 @@ export type User = {
 
   phone?: string;
 
+  contact?: string;
+
+  address?: string;
+
+  school?: string;
+
   socialType?: SocialType;
 
   socialId?: string;
@@ -72,6 +78,7 @@ export type UserSlice = {
   loadingLogin: boolean;
   loadingGetList?: boolean;
   loadingUpdateProfile?: boolean;
+  registerEmail?: string;
   token?: string;
   user?: User;
   list?: User[];
@@ -80,6 +87,11 @@ export type UserSlice = {
 export type UpdateUserInput = {
   username: string;
   description: string;
+  name: string;
+  school: string;
+  address: string;
+  gender: Gender;
+  contact: string;
 };
 
 export type SearchUserInput = {
@@ -98,4 +110,21 @@ export type SearchUserInput = {
 
 export type GetUserInput = {
   credential: string;
+};
+
+export type RegisterUserInput = {
+  email: string;
+  name: string;
+  password: string;
+  username: string;
+};
+
+export type LoginUserInput = {
+  credential: string;
+  password: string;
+};
+
+export type LoginUserOutput = {
+  token: string;
+  user: User;
 };

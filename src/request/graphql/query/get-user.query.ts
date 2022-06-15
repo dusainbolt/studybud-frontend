@@ -16,6 +16,9 @@ const query = gql`
       name
       roles
       phone
+      contact
+      address
+      school
       description
       socialId
       socialType

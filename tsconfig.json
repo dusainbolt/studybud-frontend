@@ -51,9 +51,6 @@
       "@common/*": [
         "src/common/*"
       ],
-      "@asset/*": [
-        "src/asset/*"
-      ],    
       "@request/*": [
         "src/request/*"
       ],

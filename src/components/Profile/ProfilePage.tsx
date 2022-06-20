@@ -3,12 +3,11 @@ import { ButtonIcon } from '@common/Button/ButtonIcon';
 import { Layout } from '@common/Layout';
 import { IOSSwitch } from '@common/Switch/IOSSwitch';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import CakeIcon from '@mui/icons-material/Cake';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import EditIcon from '@mui/icons-material/Edit';
 import FemaleIcon from '@mui/icons-material/Female';
-import MaleIcon from '@mui/icons-material/Male';
 import HomeIcon from '@mui/icons-material/Home';
+import MaleIcon from '@mui/icons-material/Male';
 import SchoolIcon from '@mui/icons-material/School';
 import { Avatar, Breadcrumbs, Container, FormControlLabel, Grid, Link, Stack, Typography } from '@mui/material';
 import { getUserSlice, updateProfileStart } from '@redux/slices/userSlice';
@@ -22,6 +21,7 @@ import { FC, useState } from 'react';
 import * as yup from 'yup';
 import { GenderOptions, ModalBasicInfo } from './ModalEditProfile/ModalBasicInfo';
 import { ModalDescription } from './ModalEditProfile/ModalDescription';
+import { ModalRequestStudybud } from './ModalEditProfile/ModalRequestStudybud';
 import { profilePageStyle } from './ProfilePageStyle';
 
 const ProfilePageComponent: FC<{
@@ -31,12 +31,16 @@ const ProfilePageComponent: FC<{
   const { user, loadingUpdateProfile } = useAppSelector(getUserSlice);
   const [visibleModalDescription, setVisibleModalDescription] = useState<boolean>(false);
   const [visibleModalBasicInfo, setVisibleModalBasicInfo] = useState<boolean>(false);
+  const [visibleModalRequestStudybud, setVisibleModalRequestStudybud] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
-  const initialValuesProfile: UpdateUserInput = {
+  const initialValuesDescription: UpdateUserInput = {
     username: user?.username || '',
     description: user?.description || '',
     name: user?.name || '',
+  };
+
+  const initialValuesProfile: UpdateUserInput = {
     address: user?.address || '',
     school: user?.school || '',
     contact: user?.contact || '',
@@ -44,8 +48,6 @@ const ProfilePageComponent: FC<{
   };
 
   const validateModalDescription = yup.object({
-    description: yup.string().required(Validate.require('Mô tả')),
-    username: yup.string().required(Validate.require('username')),
     name: yup.string().required(Validate.require('Tên hiển thị')),
   });
 
@@ -55,6 +57,10 @@ const ProfilePageComponent: FC<{
 
   const toggleModalBasicInfo = () => {
     setVisibleModalBasicInfo((visible) => !visible);
+  };
+
+  const toggleModalRequestStudybud = () => {
+    setVisibleModalRequestStudybud((visible) => !visible);
   };
 
   const onSubmitModalProfile = (variables: UpdateUserInput) => {
@@ -174,12 +180,6 @@ const ProfilePageComponent: FC<{
                     <b>{Helper.getLabelByOptions(GenderOptions, user?.gender)}</b>
                   </div>
                 </Stack>
-                <Stack direction="row">
-                  <CakeIcon sx={{ marginRight: 0.8 }} />
-                  <div>
-                    <b>18/11/1999</b>
-                  </div>
-                </Stack>
                 <div>
                   <i>*Nếu tôi không trả lời bạn, hãy nhắn cho tôi qua: {user?.contact}</i>
                 </div>
@@ -198,6 +198,7 @@ const ProfilePageComponent: FC<{
             <div className={styles.profileContentRight}>
               {isMyProfile && (
                 <Button
+                  onClick={toggleModalRequestStudybud}
                   startIcon={<AddCircleIcon />}
                   className={clsx(styles.btnControlProfile)}
                   style={{ width: 330 }}
@@ -232,81 +233,6 @@ const ProfilePageComponent: FC<{
                     </div>
                   </div>
                 </Grid>
-                <Grid item xs={4}>
-                  <div className={styles.cardSubject}>
-                    <div className={styles.cardSubjectHeader}>
-                      <h3>
-                        Ôn thi IELTS cấp tốc Band 8.0{' '}
-                        {isMyProfile && <ButtonIcon size="small" className={styles.buttonIcon} icon={<EditIcon />} />}
-                      </h3>
-                      <FormControlLabel control={<IOSSwitch sx={{ m: 1 }} defaultChecked />} label="" />
-                    </div>
-                    <div className={styles.cardSubjectBottom}>
-                      <Breadcrumbs className={styles.breadCrumbsTarget} separator="›" aria-label="breadcrumb">
-                        {breadcrumbs}
-                      </Breadcrumbs>{' '}
-                      <div style={{ marginTop: '10px', fontSize: 18 }}>
-                        <b>Mô tả:</b> Mình từng học chuyên Anh hồi cấp 3 và thi IELTS được 7.0. Test trình độ của mình
-                        hiện tại là 7.5 overall band với 6.5 speaking, 6.0 writing, 8.0 speaking, 9.0 listening.
-                      </div>
-                      <div style={{ marginTop: '10px', fontSize: 18 }}>
-                        <b>Mục tiêu của mình:</b> Mình muốn trở thành giáo viên dạy IELTS nên có nhu cầu đạt Band 8.0+
-                        trong 3 tháng nữa, với các Band đều trên 6.5. Mình cũng muốn thử tự học với các bạn đang gặp khó
-                        khăn trong IELTS như mình để luyện tập kỹ năng giảng dạy IELTS cho sau này.
-                      </div>
-                    </div>
-                  </div>
-                </Grid>
-                <Grid item xs={4}>
-                  <div className={styles.cardSubject}>
-                    <div className={styles.cardSubjectHeader}>
-                      <h3>
-                        Ôn thi IELTS cấp tốc Band 8.0{' '}
-                        {isMyProfile && <ButtonIcon size="small" className={styles.buttonIcon} icon={<EditIcon />} />}
-                      </h3>
-                      <FormControlLabel control={<IOSSwitch sx={{ m: 1 }} defaultChecked />} label="" />
-                    </div>
-                    <div className={styles.cardSubjectBottom}>
-                      <Breadcrumbs className={styles.breadCrumbsTarget} separator="›" aria-label="breadcrumb">
-                        {breadcrumbs}
-                      </Breadcrumbs>{' '}
-                      <div style={{ marginTop: '10px', fontSize: 18 }}>
-                        <b>Mô tả:</b> Mình từng học chuyên Anh hồi cấp 3 và thi IELTS được 7.0. Test trình độ của mình
-                        hiện tại là 7.5 overall band với 6.5 speaking, 6.0 writing, 8.0 speaking, 9.0 listening.
-                      </div>
-                      <div style={{ marginTop: '10px', fontSize: 18 }}>
-                        <b>Mục tiêu của mình:</b> Mình muốn trở thành giáo viên dạy IELTS nên có nhu cầu đạt Band 8.0+
-                        trong 3 tháng nữa, với các Band đều trên 6.5. Mình cũng muốn thử tự học với các bạn đang gặp khó
-                        khăn trong IELTS như mình để luyện tập kỹ năng giảng dạy IELTS cho sau này.
-                      </div>
-                    </div>
-                  </div>
-                </Grid>
-                <Grid item xs={4}>
-                  <div className={styles.cardSubject}>
-                    <div className={styles.cardSubjectHeader}>
-                      <h3>
-                        Ôn thi IELTS cấp tốc Band 8.0{' '}
-                        {isMyProfile && <ButtonIcon size="small" className={styles.buttonIcon} icon={<EditIcon />} />}
-                      </h3>
-                      <FormControlLabel control={<IOSSwitch sx={{ m: 1 }} defaultChecked />} label="" />
-                    </div>
-                    <div className={styles.cardSubjectBottom}>
-                      <Breadcrumbs className={styles.breadCrumbsTarget} separator="›" aria-label="breadcrumb">
-                        {breadcrumbs}
-                      </Breadcrumbs>{' '}
-                      <div style={{ marginTop: '10px', fontSize: 18 }}>
-                        <b>Mô tả:</b> Mình từng học chuyên Anh hồi cấp 3 và thi IELTS được 7.0. Test trình độ của mình
-                        hiện tại là 7.5 overall band với 6.5 speaking, 6.0 writing, 8.0 speaking, 9.0 listening.
-                      </div>
-                      <div style={{ marginTop: '10px', fontSize: 18 }}>
-                        <b>Mục tiêu của mình:</b> Mình muốn trở thành giáo viên dạy IELTS nên có nhu cầu đạt Band 8.0+
-                        trong 3 tháng nữa, với các Band đều trên 6.5. Mình cũng muốn thử tự học với các bạn đang gặp khó
-                        khăn trong IELTS như mình để luyện tập kỹ năng giảng dạy IELTS cho sau này.
-                      </div>
-                    </div>
-                  </div>
-                </Grid>
               </Grid>
             </div>
           </Stack>
@@ -315,20 +241,31 @@ const ProfilePageComponent: FC<{
       <Formik
         onSubmit={onSubmitModalProfile}
         validationSchema={validateModalDescription}
+        initialValues={initialValuesDescription}
+      >
+        <ModalDescription
+          loading={loadingUpdateProfile as any}
+          toggleModal={toggleModalDescription}
+          open={visibleModalDescription}
+        />
+      </Formik>
+      <Formik onSubmit={onSubmitModalProfile} initialValues={initialValuesProfile}>
+        <ModalBasicInfo
+          loading={loadingUpdateProfile as any}
+          toggleModal={toggleModalBasicInfo}
+          open={visibleModalBasicInfo}
+        />
+      </Formik>
+      <Formik
+        onSubmit={onSubmitModalProfile}
+        validationSchema={validateModalDescription}
         initialValues={initialValuesProfile}
       >
-        <>
-          <ModalDescription
-            loading={loadingUpdateProfile as any}
-            toggleModal={toggleModalDescription}
-            open={visibleModalDescription}
-          />
-          <ModalBasicInfo
-            loading={loadingUpdateProfile as any}
-            toggleModal={toggleModalBasicInfo}
-            open={visibleModalBasicInfo}
-          />
-        </>
+        <ModalRequestStudybud
+          loading={loadingUpdateProfile as any}
+          toggleModal={toggleModalRequestStudybud}
+          open={visibleModalRequestStudybud}
+        />
       </Formik>
     </Layout>
   );

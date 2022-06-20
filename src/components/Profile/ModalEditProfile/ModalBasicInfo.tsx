@@ -33,7 +33,7 @@ export const ModalBasicInfo: FC<{
   return (
     <DialogModal
       onCloseModal={loading ? false : toggleModal}
-      width={800}
+      width={700}
       id="modal-basic-info"
       open={open}
       title="THÔNG TIN CÁ NHÂN"
@@ -54,27 +54,15 @@ export const ModalBasicInfo: FC<{
       }
       content={
         <div>
-          <Field
-            name="school"
-            component={FieldText}
-            required
-            label="Học tại (bắt buộc)"
-            restric={Restrict.DISALLOW_SPECIAL_CHAR}
-          />
+          <Field name="school" component={FieldText} label="Học tại" restric={Restrict.DISALLOW_SPECIAL_CHAR} />
           <Field
             name="address"
             component={FieldSelect}
             options={provinces.map((item) => ({ value: item.name, label: item.name }))}
-            label="Đến từ (bắt buộc)"
+            label="Đến từ"
           />
           <Field name="gender" component={FieldRadioBox} options={GenderOptions} label="Giới tính (bắt buộc)" />
-          <Field
-            name="contact"
-            component={FieldText}
-            placeholder="URL mạng xã hội, email"
-            required
-            label="Thông tin liên lạc (bắt buộc)"
-          />
+          <Field name="contact" component={FieldText} placeholder="URL mạng xã hội, email" label="Thông tin liên lạc" />
         </div>
       }
     />

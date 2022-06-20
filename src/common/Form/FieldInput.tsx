@@ -5,6 +5,7 @@ import Helper from '@utils/helper';
 import clsx from 'clsx';
 import { FieldInputProps, FieldMetaProps, useFormikContext } from 'formik';
 import { FC, FormEvent } from 'react';
+import { FormLabel } from './FormLabel';
 
 export interface FieldTextType {
   label?: string;
@@ -33,14 +34,12 @@ const FieldText: FC<FieldTextType> = ({ label, className, field, restric, ...pro
 
   return (
     <div style={{ marginTop: 12 }} className={clsx(className)}>
-      {label && <label style={{ fontWeight: 600 }}>{label}</label>}
+      <FormLabel fieldName={field?.name} label={label} />
       <TextField
         fullWidth
         id={field?.name}
         name={field?.name}
-        // label={label || Constant.form.UNKNOWN_LABEL}
         value={field?.value}
-        // required={required}
         onChange={onChangeInput as any}
         error={isError}
         size="small"

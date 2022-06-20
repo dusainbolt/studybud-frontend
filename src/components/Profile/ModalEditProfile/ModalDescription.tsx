@@ -14,11 +14,11 @@ export const ModalDescription: FC<{
   toggleModal: any;
   loading: boolean;
 }> = ({ open, toggleModal, loading }) => {
-  const { handleSubmit } = useFormikContext();
+  const { handleSubmit, errors } = useFormikContext();
   return (
     <DialogModal
       onCloseModal={loading ? false : toggleModal}
-      width={800}
+      width={700}
       id="modal-description"
       open={open}
       title="MÔ TẢ BẢN THÂN"
@@ -42,14 +42,13 @@ export const ModalDescription: FC<{
           <Field
             name="username"
             component={FieldText}
-            required
+            disabled
             label="Username (bắt buộc)"
             restric={Restrict.DISALLOW_SPECIAL_CHAR}
           />
           <Field
             name="name"
             component={FieldText}
-            required
             label="Tên hiển thị (bắt buộc)"
             restric={Restrict.DISALLOW_SPECIAL_CHAR}
           />
@@ -58,8 +57,7 @@ export const ModalDescription: FC<{
             component={FieldText}
             multiline
             minRows={4}
-            label="Mô tả (bắt buộc)"
-            required
+            label="Mô tả"
             placeholder="Bạn là ai?&#10;Lĩnh vực mà bạn quan tâm&#10;Nhu cầu tìm bạn học của bạn"
             // restric={Restrict.DISALLOW_SPECIAL_CHAR}
           />

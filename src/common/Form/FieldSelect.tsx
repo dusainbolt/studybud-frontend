@@ -7,6 +7,7 @@ import Helper from '@utils/helper';
 import clsx from 'clsx';
 import { FieldInputProps, FieldMetaProps, useFormikContext } from 'formik';
 import { FC } from 'react';
+import { FormLabel } from './FormLabel';
 
 export const fieldSelectStyle = makeStyles({
   label: {
@@ -21,7 +22,7 @@ export interface FieldSelectType {
   label?: string;
   // prefix?: any;
   // suffix?: any;
-  // placeholder?: string;
+  placeholder?: string;
   className?: string;
   options: OptionSelect[];
   // restric: Restrict;
@@ -31,7 +32,7 @@ export interface FieldSelectType {
   meta?: FieldMetaProps<any>;
 }
 
-const FieldSelect: FC<FieldSelectType> = ({ label, options, className, field }) => {
+const FieldSelect: FC<FieldSelectType> = ({ label, options, className, field, ...props }) => {
   const { touched, errors, setFieldValue } = useFormikContext();
   const fieldTouch: boolean = Helper.objValue(touched, field?.name);
   const fieldError: string = Helper.objValue(errors, field?.name);
@@ -43,24 +44,20 @@ const FieldSelect: FC<FieldSelectType> = ({ label, options, className, field }) 
     setFieldValue(field?.name as string, event.target.value);
   };
 
-  // label = `${label}${required && ' *'}`;
-
   return (
     <div style={{ marginTop: 12 }} className={clsx(className)}>
       <FormControl error={isError} fullWidth>
-        {/* <InputLabel className={styles.label} id={`${field?.name}-label`}>
-          {label}
-        </InputLabel> */}
-        {label && <label style={{ fontWeight: 600 }}>{label}</label>}
+        <FormLabel fieldName={field?.name} label={label} />
         <Select
           labelId={`${field?.name}-label`}
           id={field?.name}
           name={field?.name}
           size="small"
           value={field?.value}
+          onChange={handleChange}
+          {...props}
           // placeholder={placeholder}
           // label={label}
-          onChange={handleChange}
           // inputProps={{
           //   required,
           // }}

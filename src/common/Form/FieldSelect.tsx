@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { FormControl, FormHelperText, Select } from '@mui/material';
+import { Box, FormControl, FormHelperText, Select, SxProps, Theme } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import { makeStyles } from '@mui/styles';
 import { OptionSelect } from '@type/field';
@@ -20,19 +20,15 @@ export const fieldSelectStyle = makeStyles({
 
 export interface FieldSelectType {
   label?: string;
-  // prefix?: any;
-  // suffix?: any;
-  placeholder?: string;
   className?: string;
   options: OptionSelect[];
-  // restric: Restrict;
-  // type?: string;
-  // required?: boolean;
+  sx?: SxProps<Theme>;
   field?: FieldInputProps<any>;
   meta?: FieldMetaProps<any>;
+  fieldProps?: any;
 }
 
-const FieldSelect: FC<FieldSelectType> = ({ label, options, className, field, ...props }) => {
+const FieldSelect: FC<FieldSelectType> = ({ label, options, className, field, sx, fieldProps }) => {
   const { touched, errors, setFieldValue } = useFormikContext();
   const fieldTouch: boolean = Helper.objValue(touched, field?.name);
   const fieldError: string = Helper.objValue(errors, field?.name);
@@ -45,7 +41,16 @@ const FieldSelect: FC<FieldSelectType> = ({ label, options, className, field, ..
   };
 
   return (
-    <div style={{ marginTop: 12 }} className={clsx(className)}>
+    <Box
+      sx={{
+        mt: 2,
+        ...sx,
+        '& .Mui-disabled': {
+          background: '#ebebeb',
+        },
+      }}
+      className={clsx(className)}
+    >
       <FormControl error={isError} fullWidth>
         <FormLabel fieldName={field?.name} label={label} />
         <Select
@@ -55,7 +60,7 @@ const FieldSelect: FC<FieldSelectType> = ({ label, options, className, field, ..
           size="small"
           value={field?.value}
           onChange={handleChange}
-          {...props}
+          {...fieldProps}
           // placeholder={placeholder}
           // label={label}
           // inputProps={{
@@ -70,7 +75,7 @@ const FieldSelect: FC<FieldSelectType> = ({ label, options, className, field, ..
         </Select>
         {fieldTouch && fieldError && <FormHelperText>{fieldError}</FormHelperText>}
       </FormControl>
-    </div>
+    </Box>
   );
 };
 

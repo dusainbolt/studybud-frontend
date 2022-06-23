@@ -26,3 +26,8 @@ export type SearchResponse = {
 };
 
 export type querySearchDefault = { page: number; pageSize: number; sortBy?: string };
+
+export enum StatusOnOff {
+  OFF,
+  ON,
+}

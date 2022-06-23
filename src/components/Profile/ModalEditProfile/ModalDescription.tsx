@@ -1,6 +1,6 @@
 import { Button } from '@common/Button';
 import { DialogModal } from '@common/Dialog/DialogModal';
-import FieldText from '@common/Form/FieldInput';
+import FieldText, { ValidateBlock } from '@common/Form/FieldInput';
 import { DialogActions } from '@mui/material';
 import { defaultStyle } from '@styles/theme';
 import { Restrict } from '@type/field';
@@ -14,7 +14,7 @@ export const ModalDescription: FC<{
   toggleModal: any;
   loading: boolean;
 }> = ({ open, toggleModal, loading }) => {
-  const { handleSubmit, errors } = useFormikContext();
+  const { handleSubmit } = useFormikContext();
   return (
     <DialogModal
       onCloseModal={loading ? false : toggleModal}
@@ -42,24 +42,33 @@ export const ModalDescription: FC<{
           <Field
             name="username"
             component={FieldText}
-            disabled
-            label="Username (bắt buộc)"
-            restric={Restrict.DISALLOW_SPECIAL_CHAR}
+            label="Username"
+            fieldProps={{ disabled: true }}
+            block={
+              {
+                restric: Restrict.DISALLOW_SPECIAL_CHAR,
+              } as ValidateBlock
+            }
           />
           <Field
             name="name"
             component={FieldText}
             label="Tên hiển thị (bắt buộc)"
-            restric={Restrict.DISALLOW_SPECIAL_CHAR}
+            block={
+              {
+                restric: Restrict.DISALLOW_SPECIAL_CHAR,
+              } as ValidateBlock
+            }
           />
           <Field
             name="description"
             component={FieldText}
-            multiline
-            minRows={4}
             label="Mô tả"
-            placeholder="Bạn là ai?&#10;Lĩnh vực mà bạn quan tâm&#10;Nhu cầu tìm bạn học của bạn"
-            // restric={Restrict.DISALLOW_SPECIAL_CHAR}
+            fieldProps={{
+              multiline: true,
+              minRows: 4,
+              placeholder: 'Bạn là ai?&#10;Lĩnh vực mà bạn quan tâm&#10;Nhu cầu tìm bạn học của bạn',
+            }}
           />
         </div>
       }

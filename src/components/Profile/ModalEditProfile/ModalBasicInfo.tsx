@@ -1,6 +1,6 @@
 import { Button } from '@common/Button';
 import { DialogModal } from '@common/Dialog/DialogModal';
-import FieldText from '@common/Form/FieldInput';
+import FieldText, { ValidateBlock } from '@common/Form/FieldInput';
 import FieldRadioBox from '@common/Form/FieldRadioBox';
 import FieldSelect from '@common/Form/FieldSelect';
 import { DialogActions } from '@mui/material';
@@ -54,7 +54,16 @@ export const ModalBasicInfo: FC<{
       }
       content={
         <div>
-          <Field name="school" component={FieldText} label="Học tại" restric={Restrict.DISALLOW_SPECIAL_CHAR} />
+          <Field
+            name="school"
+            component={FieldText}
+            label="Học tại"
+            block={
+              {
+                restric: Restrict.DISALLOW_SPECIAL_CHAR,
+              } as ValidateBlock
+            }
+          />
           <Field
             name="address"
             component={FieldSelect}
@@ -62,7 +71,12 @@ export const ModalBasicInfo: FC<{
             label="Đến từ"
           />
           <Field name="gender" component={FieldRadioBox} options={GenderOptions} label="Giới tính (bắt buộc)" />
-          <Field name="contact" component={FieldText} placeholder="URL mạng xã hội, email" label="Thông tin liên lạc" />
+          <Field
+            name="contact"
+            fieldProps={{ placeholder: 'URL mạng xã hội, email' }}
+            component={FieldText}
+            label="Thông tin liên lạc"
+          />
         </div>
       }
     />

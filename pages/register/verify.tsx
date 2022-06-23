@@ -25,7 +25,7 @@ const Register: FC<any> = () => {
   return (
     <Fragment>
       <Head>
-        <title>Du App</title>
+        <title>StudyBud</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
       <main>

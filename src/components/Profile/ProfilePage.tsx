@@ -2,6 +2,7 @@ import { Button } from '@common/Button';
 import { ButtonIcon } from '@common/Button/ButtonIcon';
 import { Layout } from '@common/Layout';
 import { IOSSwitch } from '@common/Switch/IOSSwitch';
+import { useProfilePage } from '@hooks/useProfilePage';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import EditIcon from '@mui/icons-material/Edit';
@@ -10,14 +11,17 @@ import HomeIcon from '@mui/icons-material/Home';
 import MaleIcon from '@mui/icons-material/Male';
 import SchoolIcon from '@mui/icons-material/School';
 import { Avatar, Breadcrumbs, Container, FormControlLabel, Grid, Link, Stack, Typography } from '@mui/material';
-import { getUserSlice, updateProfileStart } from '@redux/slices/userSlice';
-import { useAppDispatch, useAppSelector } from '@redux/store';
+import { getUserSlice } from '@redux/slices/userSlice';
+import { useAppSelector } from '@redux/store';
+import { CreateStudyRequestInput } from '@type/request-studybud';
+import { PointType } from '@type/standard';
 import { Gender, UpdateUserInput } from '@type/user';
 import Helper from '@utils/helper';
 import Validate from '@utils/validate';
 import clsx from 'clsx';
 import { Formik } from 'formik';
 import { FC, useState } from 'react';
+import { CardStudyRequest } from 'src/shared/Card/CardStudyRequest';
 import * as yup from 'yup';
 import { GenderOptions, ModalBasicInfo } from './ModalEditProfile/ModalBasicInfo';
 import { ModalDescription } from './ModalEditProfile/ModalDescription';
@@ -33,7 +37,8 @@ const ProfilePageComponent: FC<{
   const [visibleModalBasicInfo, setVisibleModalBasicInfo] = useState<boolean>(false);
   const [visibleModalRequestStudybud, setVisibleModalRequestStudybud] = useState<boolean>(false);
 
-  const dispatch = useAppDispatch();
+  const { onSubmitRequestStudybud, onSubmitModalProfile, myStudyRequestList } = useProfilePage();
+
   const initialValuesDescription: UpdateUserInput = {
     username: user?.username || '',
     description: user?.description || '',
@@ -47,9 +52,34 @@ const ProfilePageComponent: FC<{
     gender: user?.gender || Gender.MALE,
   };
 
-  const validateModalDescription = yup.object({
+  const initialValuesRequestStudy: CreateStudyRequestInput = {
+    mission: '',
+    missionDes: '',
+    point: '',
+    requestDes: '',
+    standard: '',
+    title: '',
+    topic: '',
+  };
+
+  const validateFormDescription = yup.object({
     name: yup.string().required(Validate.require('Tên hiển thị')),
   });
+
+  const validateFormRequestStudy = () =>
+    yup.lazy((values) => {
+      const standard = values?.standardData;
+      return yup.object({
+        title: yup.string().required(Validate.require('Tiêu đề')),
+        topic: yup.string().required(Validate.require('Lĩnh vực')),
+        mission: yup.string().required(Validate.require('Mục tiêu')),
+        standard: yup.string().required(Validate.require('Tiêu chí')),
+        point:
+          standard?.pointType === PointType.INPUT
+            ? yup.number().required(Validate.require('Điểm')).max(standard?.point, Validate.maxNumber(standard?.point))
+            : yup.string().required(Validate.require('Điểm')),
+      });
+    });
 
   const toggleModalDescription = () => {
     setVisibleModalDescription((visible) => !visible);
@@ -62,25 +92,6 @@ const ProfilePageComponent: FC<{
   const toggleModalRequestStudybud = () => {
     setVisibleModalRequestStudybud((visible) => !visible);
   };
-
-  const onSubmitModalProfile = (variables: UpdateUserInput) => {
-    dispatch(updateProfileStart({ userId: user?._id, variables }));
-  };
-
-  const breadcrumbs = [
-    <Link underline="hover" key="1" color="inherit" href="/">
-      Ngôn ngữ
-    </Link>,
-    <Link underline="hover" key="2" color="inherit" href="/material-ui/getting-started/installation/">
-      Tiếng Anh
-    </Link>,
-    <Typography key="3" color="inherit">
-      Thi IELTS
-    </Typography>,
-    <Typography key="3" color="inherit">
-      8.0
-    </Typography>,
-  ];
 
   return (
     <Layout>
@@ -208,31 +219,11 @@ const ProfilePageComponent: FC<{
                 </Button>
               )}
               <Grid container sx={{ marginTop: 2 }} spacing={2}>
-                <Grid item xs={4}>
-                  <div className={styles.cardSubject}>
-                    <div className={styles.cardSubjectHeader}>
-                      <h3>
-                        Ôn thi IELTS cấp tốc Band 8.0{' '}
-                        {isMyProfile && <ButtonIcon size="small" className={styles.buttonIcon} icon={<EditIcon />} />}
-                      </h3>
-                      <FormControlLabel control={<IOSSwitch sx={{ m: 1 }} defaultChecked />} label="" />
-                    </div>
-                    <div className={styles.cardSubjectBottom}>
-                      <Breadcrumbs className={styles.breadCrumbsTarget} separator="›" aria-label="breadcrumb">
-                        {breadcrumbs}
-                      </Breadcrumbs>{' '}
-                      <div style={{ marginTop: '10px', fontSize: 18 }}>
-                        <b>Mô tả:</b> Mình từng học chuyên Anh hồi cấp 3 và thi IELTS được 7.0. Test trình độ của mình
-                        hiện tại là 7.5 overall band với 6.5 speaking, 6.0 writing, 8.0 speaking, 9.0 listening.
-                      </div>
-                      <div style={{ marginTop: '10px', fontSize: 18 }}>
-                        <b>Mục tiêu của mình:</b> Mình muốn trở thành giáo viên dạy IELTS nên có nhu cầu đạt Band 8.0+
-                        trong 3 tháng nữa, với các Band đều trên 6.5. Mình cũng muốn thử tự học với các bạn đang gặp khó
-                        khăn trong IELTS như mình để luyện tập kỹ năng giảng dạy IELTS cho sau này.
-                      </div>
-                    </div>
-                  </div>
-                </Grid>
+                {myStudyRequestList.map((item, index) => (
+                  <Grid item key={index} xs={4}>
+                    <CardStudyRequest studyRequest={item} />
+                  </Grid>
+                ))}
               </Grid>
             </div>
           </Stack>
@@ -240,7 +231,7 @@ const ProfilePageComponent: FC<{
       </main>
       <Formik
         onSubmit={onSubmitModalProfile}
-        validationSchema={validateModalDescription}
+        validationSchema={validateFormDescription}
         initialValues={initialValuesDescription}
       >
         <ModalDescription
@@ -257,9 +248,9 @@ const ProfilePageComponent: FC<{
         />
       </Formik>
       <Formik
-        onSubmit={onSubmitModalProfile}
-        validationSchema={validateModalDescription}
-        initialValues={initialValuesProfile}
+        onSubmit={onSubmitRequestStudybud}
+        validationSchema={validateFormRequestStudy}
+        initialValues={initialValuesRequestStudy}
       >
         <ModalRequestStudybud
           loading={loadingUpdateProfile as any}

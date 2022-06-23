@@ -1,16 +1,17 @@
 import { Button } from '@common/Button';
 import { DialogModal } from '@common/Dialog/DialogModal';
-import FieldText from '@common/Form/FieldInput';
-import FieldRadioBox from '@common/Form/FieldRadioBox';
-import { FieldRange } from '@common/Form/FieldRange';
+import FieldText, { ValidateBlock } from '@common/Form/FieldInput';
 import FieldSelect from '@common/Form/FieldSelect';
-import { DialogActions } from '@mui/material';
+import { DialogActions, SxProps, Theme } from '@mui/material';
+import { getTopicSlice } from '@redux/slices/topicSlice';
+import { useAppSelector } from '@redux/store';
 import { defaultStyle } from '@styles/theme';
 import { Restrict } from '@type/field';
+import { PointType } from '@type/standard';
+import { CreateStudyRequestInput } from '@type/request-studybud';
 import { Gender } from '@type/user';
-import { provinces } from '@utils/provinces';
 import { Field, useFormikContext } from 'formik';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 export const GenderOptions = [
   {
@@ -28,7 +29,25 @@ export const ModalRequestStudybud: FC<{
   toggleModal: any;
   loading: boolean;
 }> = ({ open, toggleModal, loading }) => {
-  const { handleSubmit } = useFormikContext();
+  const { handleSubmit, values, setFieldValue } = useFormikContext();
+  const formValues = values as CreateStudyRequestInput;
+  const { topics } = useAppSelector(getTopicSlice);
+  const missions = topics?.find((item) => item._id === formValues?.topic)?.missionData;
+  const standards = missions?.find((item) => item._id === formValues?.mission)?.standardData;
+  const standard = standards?.find((item) => item._id === formValues.standard);
+
+  useEffect(() => {
+    setFieldValue('mission', '');
+  }, [formValues?.topic]);
+
+  useEffect(() => {
+    setFieldValue('standard', '');
+    setFieldValue('point', '');
+  }, [formValues?.mission]);
+
+  useEffect(() => {
+    standard?._id && setFieldValue('standardData', standard);
+  }, [standard]);
 
   return (
     <DialogModal
@@ -55,51 +74,80 @@ export const ModalRequestStudybud: FC<{
       content={
         <div>
           <Field
-            name="school"
+            name="title"
             component={FieldText}
-            required
             label="Tiêu đề"
-            placeholder="Mô tả ngắn gọn yêu cầu tìm bạn học"
-            restric={Restrict.DISALLOW_SPECIAL_CHAR}
+            block={
+              {
+                restric: Restrict.DISALLOW_SPECIAL_CHAR,
+              } as ValidateBlock
+            }
+            fieldProps={{
+              placeholder: 'Mô tả ngắn gọn yêu cầu tìm bạn học',
+            }}
           />
           <Field
-            name="address"
+            name="topic"
             component={FieldSelect}
-            options={provinces.map((item) => ({ value: item.name, label: item.name }))}
+            sx={{ maxWidth: 250 } as SxProps<Theme>}
+            options={topics?.map((item) => ({ value: item._id, label: item.name }))}
             label="Lĩnh vực"
           />
           <Field
-            name="address"
+            name="mission"
             component={FieldSelect}
-            options={provinces.map((item) => ({ value: item.name, label: item.name }))}
+            sx={{ maxWidth: 250 } as SxProps<Theme>}
+            options={missions?.map((item) => ({ value: item._id, label: item.name }))}
             label="Mục tiêu"
+            fieldProps={{ disabled: !missions?.length }}
           />
           <Field
-            name="address"
+            name="standard"
             component={FieldSelect}
-            options={provinces.map((item) => ({ value: item.name, label: item.name }))}
+            sx={{ maxWidth: 250 } as SxProps<Theme>}
+            options={standards?.map((item) => ({ value: item._id, label: item.name }))}
             label="Tiêu chí"
+            fieldProps={{ disabled: !standards?.length }}
           />
+          {formValues?.standard &&
+            (standard?.pointType === PointType.INPUT ? (
+              <Field
+                name="point"
+                component={FieldText}
+                sx={{ maxWidth: 250 } as SxProps<Theme>}
+                label="Điểm"
+                fieldProps={{
+                  type: 'number',
+                }}
+                block={{ number: { countDecimal: 1 } } as ValidateBlock}
+              />
+            ) : (
+              <Field
+                name="point"
+                component={FieldSelect}
+                sx={{ maxWidth: 250 } as SxProps<Theme>}
+                options={standard?.pointData?.map((item) => ({ value: item, label: item }))}
+                label="Điểm"
+              />
+            ))}
           <Field
-            name="address"
-            component={FieldRange}
-            options={provinces.map((item) => ({ value: item.name, label: item.name }))}
-            label="Range điểm"
-          />
-          <Field
-            name="description"
+            name="requestDes"
             component={FieldText}
-            multiline
-            minRows={4}
-            label="Mô tả"
-            placeholder="Mô tả chi tiết yêu cầu tìm bạn học.&#10;Trình độ hiện tại của bạn&#10;Bạn muốn tìm kiếm người bạn học như thế nào&#10;Lịch rảnh và nơi chốn học tập phù hợp với bạn"
+            label="Mô tả yêu cầu"
+            fieldProps={{
+              multiline: true,
+              minRows: 4,
+              placeholder:
+                'Mô tả chi tiết yêu cầu tìm bạn học.&#10;Trình độ hiện tại của bạn&#10;Bạn muốn tìm kiếm người bạn học như thế nào&#10;Lịch rảnh và nơi chốn học tập phù hợp với bạn',
+            }}
           />
           <Field
-            name="contact"
+            name="missionDes"
             component={FieldText}
-            placeholder="Mô tả mục tiêu và động lực của bạn"
-            required
-            label="Mục tiêu"
+            label="Mô tả mục tiêu"
+            fieldProps={{
+              placeholder: 'Mô tả mục tiêu và động lực của bạn',
+            }}
           />
         </div>
       }

@@ -3,7 +3,7 @@ import { graphQLReq } from '@request/graphql';
 import { GetUserInput } from '@type/user';
 
 const query = gql`
-  query GetUser($input: GetUserInput!) {
+  query Query($input: GetUserInput!) {
     getUser(input: $input) {
       _id
       avatar

@@ -1,22 +1,21 @@
+import { SxProps, Theme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
+import clsx from 'clsx';
 import { FieldInputProps, FieldMetaProps } from 'formik';
 import { FC, useState } from 'react';
 import { FormLabel } from './FormLabel';
-
-// function valuetext(value: number) {
-//   return `${value}°C`;
-// }
 
 export interface FieldRangeType {
   label?: string;
   className?: string;
   options: [];
+  sx?: SxProps<Theme>;
   field?: FieldInputProps<any>;
   meta?: FieldMetaProps<any>;
 }
 
-export const FieldRange: FC<FieldRangeType> = ({ label, options, className, field }) => {
+export const FieldRange: FC<FieldRangeType> = ({ label, options, className, sx, field }) => {
   const [value, setValue] = useState<number[]>([20, 37]);
 
   const handleChange = (event: Event, newValue: number | number[]) => {
@@ -35,8 +34,10 @@ export const FieldRange: FC<FieldRangeType> = ({ label, options, className, fiel
     },
   ];
 
+  console.log('options: ', options);
+
   return (
-    <Box sx={{ width: 300, mt: 2 }}>
+    <Box sx={{ width: 300, mt: 2, ...sx }} className={clsx(className)}>
       <FormLabel fieldName={field?.name} label={label} />
       <Slider
         // getAriaLabel={() => 'Temperature range'}

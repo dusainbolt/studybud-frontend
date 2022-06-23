@@ -84,32 +84,32 @@ export const profilePageStyle = makeStyles((theme: Theme) => ({
       opacity: 0.7,
     },
   },
-  cardSubject: {
-    borderRadius: 18,
-    overflow: 'hidden',
-  },
-  cardSubjectHeader: {
-    background: '#D0D0D0',
-    padding: `22px 44px`,
-    '& h3': {
-      margin: 0,
-    },
-  },
-  cardSubjectBottom: {
-    background: '#ffffff',
-    padding: `22px 44px`,
-  },
-  breadCrumbsTarget: {
-    '& .MuiBreadcrumbs-separator': {
-      marginRight: 6,
-      marginLeft: 6,
-    },
-    '& .MuiBreadcrumbs-li .MuiTypography-root': {
-      color: '#000000',
-      fontSize: 18,
-      fontWeight: 600,
-    },
-  },
+  // cardSubject: {
+  //   borderRadius: 18,
+  //   overflow: 'hidden',
+  // },
+  // cardSubjectHeader: {
+  //   background: '#D0D0D0',
+  //   padding: `22px 44px`,
+  //   '& h3': {
+  //     margin: 0,
+  //   },
+  // },
+  // cardSubjectBottom: {
+  //   background: '#ffffff',
+  //   padding: `22px 44px`,
+  // },
+  // breadCrumbsTarget: {
+  //   '& .MuiBreadcrumbs-separator': {
+  //     marginRight: 6,
+  //     marginLeft: 6,
+  //   },
+  //   '& .MuiBreadcrumbs-li .MuiTypography-root': {
+  //     color: '#000000',
+  //     fontSize: 18,
+  //     fontWeight: 600,
+  //   },
+  // },
   buttonIcon: {
     // ...defaultStyle.btnStyle('#000000'),
     // color: '#ffffff',

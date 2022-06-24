@@ -1,4 +1,7 @@
 import { StatusOnOff } from './context';
+import { Mission } from './mission';
+import { Standard } from './standard';
+import { Topic } from './topic';
 
 export type CreateStudyRequestInput = {
   mission: string;
@@ -9,6 +12,7 @@ export type CreateStudyRequestInput = {
   standard: string;
   title: string;
   topic: string;
+  status: StatusOnOff;
 };
 
 export type SearchStudyRequestInput = {
@@ -35,4 +39,7 @@ export type StudyRequest = {
   title: string;
   topic: string;
   updatedAt: Date;
+  standardData: Standard;
+  topicData: Topic;
+  missionData: Mission;
 };

@@ -13,16 +13,24 @@ export const useProfilePage = () => {
   const [loadingRequestForm, setLoadingRequestForm] = useState<boolean>(false);
   const [loadingStudyRequestList, setLoadingStudyRequestList] = useState<boolean>(true);
   const [myStudyRequestList, setMyStudyRequestList] = useState<any>([]);
+  const [visibleModalRequestStudybud, setVisibleModalRequestStudybud] = useState<boolean>(false);
+
   const { user } = useAppSelector(getUserSlice);
 
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (user?._id) {
+      fetchListRequestStart();
+      dispatch(getAllTopicStart());
+    }
+  }, []);
 
   const fetchListRequestStart = async () => {
     setLoadingStudyRequestList(true);
     try {
       const response = await searchStudyRequestQuery({ userId: user?._id });
       setMyStudyRequestList(response);
-      toast.success('Thêm mới thành công');
     } catch (e) {
       console.log('Error: ', e);
     }
@@ -39,6 +47,8 @@ export const useProfilePage = () => {
     try {
       const response = await createStudyMutation(values);
       console.log('response: ', response);
+      setMyStudyRequestList((oldState) => [response, ...oldState]);
+      setVisibleModalRequestStudybud(false);
       toast.success('Thêm mới thành công');
     } catch (e) {
       console.log('Error: ', e);
@@ -50,15 +60,16 @@ export const useProfilePage = () => {
     dispatch(updateProfileStart({ userId: user?._id, variables }));
   };
 
-  useEffect(() => {
-    if (user?._id) {
-      fetchListRequestStart();
-      dispatch(getAllTopicStart());
-    }
-  }, []);
+  const toggleModalRequestStudybud = () => {
+    setVisibleModalRequestStudybud((visible) => !visible);
+  };
+
+  // const onClickEditProfile = () => {};
 
   return {
     loadingRequestForm,
+    visibleModalRequestStudybud,
+    toggleModalRequestStudybud,
     myStudyRequestList,
     loadingStudyRequestList,
     fetchListRequestStart,

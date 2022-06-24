@@ -15,10 +15,11 @@ export interface FieldRangeType {
   meta?: FieldMetaProps<any>;
 }
 
-export const FieldRange: FC<FieldRangeType> = ({ label, options, className, sx, field }) => {
+export const FieldRange: FC<FieldRangeType> = ({ label, className, sx, field }) => {
   const [value, setValue] = useState<number[]>([20, 37]);
 
   const handleChange = (event: Event, newValue: number | number[]) => {
+    console.log('event: ', event);
     setValue(newValue as number[]);
   };
 
@@ -33,8 +34,6 @@ export const FieldRange: FC<FieldRangeType> = ({ label, options, className, sx, 
       label: 100,
     },
   ];
-
-  console.log('options: ', options);
 
   return (
     <Box sx={{ width: 300, mt: 2, ...sx }} className={clsx(className)}>

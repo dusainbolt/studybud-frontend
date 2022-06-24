@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { Box, FormHelperText, SxProps, TextField, TextFieldProps, Theme } from '@mui/material';
+import { Box, SxProps, TextField, TextFieldProps, Theme } from '@mui/material';
 import { Restrict } from '@type/field';
 import Helper from '@utils/helper';
 import clsx from 'clsx';

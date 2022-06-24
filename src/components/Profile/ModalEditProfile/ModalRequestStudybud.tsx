@@ -2,13 +2,14 @@ import { Button } from '@common/Button';
 import { DialogModal } from '@common/Dialog/DialogModal';
 import FieldText, { ValidateBlock } from '@common/Form/FieldInput';
 import FieldSelect from '@common/Form/FieldSelect';
+import { FieldSwitch } from '@common/Form/FieldSwitch';
 import { DialogActions, SxProps, Theme } from '@mui/material';
 import { getTopicSlice } from '@redux/slices/topicSlice';
 import { useAppSelector } from '@redux/store';
 import { defaultStyle } from '@styles/theme';
 import { Restrict } from '@type/field';
-import { PointType } from '@type/standard';
 import { CreateStudyRequestInput } from '@type/request-studybud';
+import { PointType } from '@type/standard';
 import { Gender } from '@type/user';
 import { Field, useFormikContext } from 'formik';
 import { FC, useEffect } from 'react';
@@ -29,7 +30,7 @@ export const ModalRequestStudybud: FC<{
   toggleModal: any;
   loading: boolean;
 }> = ({ open, toggleModal, loading }) => {
-  const { handleSubmit, values, setFieldValue } = useFormikContext();
+  const { handleSubmit, values, setFieldValue, handleReset } = useFormikContext();
   const formValues = values as CreateStudyRequestInput;
   const { topics } = useAppSelector(getTopicSlice);
   const missions = topics?.find((item) => item._id === formValues?.topic)?.missionData;
@@ -48,6 +49,10 @@ export const ModalRequestStudybud: FC<{
   useEffect(() => {
     standard?._id && setFieldValue('standardData', standard);
   }, [standard]);
+
+  useEffect(() => {
+    !open && handleReset();
+  }, [open]);
 
   return (
     <DialogModal
@@ -149,6 +154,7 @@ export const ModalRequestStudybud: FC<{
               placeholder: 'Mô tả mục tiêu và động lực của bạn',
             }}
           />
+          <Field name="status" component={FieldSwitch} label="Trạng thái" />
         </div>
       }
     />

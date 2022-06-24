@@ -6,6 +6,22 @@ const query = gql`
   mutation Mutation($input: CreateStudyRequestInput!) {
     createStudyRequest(input: $input) {
       _id
+      createdAt
+      missionDes
+      point
+      pointValue
+      title
+      requestDes
+      status
+      missionData {
+        name
+      }
+      standardData {
+        name
+      }
+      topicData {
+        name
+      }
     }
   }
 `;

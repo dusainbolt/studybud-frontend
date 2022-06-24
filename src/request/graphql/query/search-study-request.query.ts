@@ -7,6 +7,21 @@ const query = gql`
     searchStudyRequest(input: $input) {
       _id
       createdAt
+      missionDes
+      point
+      pointValue
+      title
+      requestDes
+      status
+      missionData {
+        name
+      }
+      standardData {
+        name
+      }
+      topicData {
+        name
+      }
     }
   }
 `;

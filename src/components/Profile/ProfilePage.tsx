@@ -1,7 +1,8 @@
 import { Button } from '@common/Button';
 import { ButtonIcon } from '@common/Button/ButtonIcon';
+import { CardStudyRequest } from '@common/Card/CardStudyRequest';
 import { Layout } from '@common/Layout';
-import { IOSSwitch } from '@common/Switch/IOSSwitch';
+import { SkeletonCardStudy } from '@common/Skeleton/SkeletonCardStudy';
 import { useProfilePage } from '@hooks/useProfilePage';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
@@ -10,9 +11,10 @@ import FemaleIcon from '@mui/icons-material/Female';
 import HomeIcon from '@mui/icons-material/Home';
 import MaleIcon from '@mui/icons-material/Male';
 import SchoolIcon from '@mui/icons-material/School';
-import { Avatar, Breadcrumbs, Container, FormControlLabel, Grid, Link, Stack, Typography } from '@mui/material';
+import { Avatar, Container, Grid, Stack, Typography } from '@mui/material';
 import { getUserSlice } from '@redux/slices/userSlice';
 import { useAppSelector } from '@redux/store';
+import { StatusOnOff } from '@type/context';
 import { CreateStudyRequestInput } from '@type/request-studybud';
 import { PointType } from '@type/standard';
 import { Gender, UpdateUserInput } from '@type/user';
@@ -21,7 +23,6 @@ import Validate from '@utils/validate';
 import clsx from 'clsx';
 import { Formik } from 'formik';
 import { FC, useState } from 'react';
-import { CardStudyRequest } from 'src/shared/Card/CardStudyRequest';
 import * as yup from 'yup';
 import { GenderOptions, ModalBasicInfo } from './ModalEditProfile/ModalBasicInfo';
 import { ModalDescription } from './ModalEditProfile/ModalDescription';
@@ -35,9 +36,15 @@ const ProfilePageComponent: FC<{
   const { user, loadingUpdateProfile } = useAppSelector(getUserSlice);
   const [visibleModalDescription, setVisibleModalDescription] = useState<boolean>(false);
   const [visibleModalBasicInfo, setVisibleModalBasicInfo] = useState<boolean>(false);
-  const [visibleModalRequestStudybud, setVisibleModalRequestStudybud] = useState<boolean>(false);
 
-  const { onSubmitRequestStudybud, onSubmitModalProfile, myStudyRequestList } = useProfilePage();
+  const {
+    onSubmitRequestStudybud,
+    onSubmitModalProfile,
+    visibleModalRequestStudybud,
+    toggleModalRequestStudybud,
+    myStudyRequestList,
+    loadingStudyRequestList,
+  } = useProfilePage();
 
   const initialValuesDescription: UpdateUserInput = {
     username: user?.username || '',
@@ -56,10 +63,12 @@ const ProfilePageComponent: FC<{
     mission: '',
     missionDes: '',
     point: '',
+    pointValue: '',
     requestDes: '',
     standard: '',
     title: '',
     topic: '',
+    status: StatusOnOff.ON,
   };
 
   const validateFormDescription = yup.object({
@@ -87,10 +96,6 @@ const ProfilePageComponent: FC<{
 
   const toggleModalBasicInfo = () => {
     setVisibleModalBasicInfo((visible) => !visible);
-  };
-
-  const toggleModalRequestStudybud = () => {
-    setVisibleModalRequestStudybud((visible) => !visible);
   };
 
   return (
@@ -219,9 +224,14 @@ const ProfilePageComponent: FC<{
                 </Button>
               )}
               <Grid container sx={{ marginTop: 2 }} spacing={2}>
+                {loadingStudyRequestList && (
+                  <Grid item xs={4}>
+                    <SkeletonCardStudy />
+                  </Grid>
+                )}
                 {myStudyRequestList.map((item, index) => (
                   <Grid item key={index} xs={4}>
-                    <CardStudyRequest studyRequest={item} />
+                    <CardStudyRequest studyRequest={item} isMyProfile={isMyProfile} />
                   </Grid>
                 ))}
               </Grid>

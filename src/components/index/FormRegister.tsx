@@ -17,20 +17,29 @@ export const FormRegister = () => {
         </Alert>
       ) : (
         <>
-          <Field name="name" placeholder="Nhập họ và tên" label="Họ và tên" component={FieldText} />
-          <Field name="username" placeholder="Nhập tên đăng nhập" label="Tên đăng nhập" component={FieldText} />
-          <Field name="email" placeholder="Nhập email" label="Email" component={FieldText} type="email" />
+          <Field name="name" fieldProps={{ placeholder: 'Nhập họ và tên' }} label="Họ và tên" component={FieldText} />
           <Field
-            name="password"
-            placeholder="Nhập mật khẩu"
-            label="Mật khẩu"
+            name="username"
+            fieldProps={{ placeholder: 'Nhập tên đăng nhập' }}
+            label="Tên đăng nhập"
             component={FieldText}
-            type="password"
-            required
           />
           <Field
+            fieldProps={{ type: 'email', placeholder: 'Nhập email' }}
+            name="email"
+            label="Email"
+            component={FieldText}
+          />
+          <Field
+            name="password"
+            fieldProps={{ placeholder: 'Nhập Mật khẩu', type: 'password' }}
+            label="Mật khẩu"
+            component={FieldText}
+          />
+
+          <Field
             name="rePassword"
-            placeholder="Xác nhận mật khẩu"
+            fieldProps={{ placeholder: 'Xác nhận mật khẩu', type: 'password' }}
             label="Nhập lại mật khẩu"
             component={FieldText}
             type="password"

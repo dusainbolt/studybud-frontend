@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { FormControl, FormHelperText, Select } from '@mui/material';
+import { Box, FormControl, FormHelperText, Select, SxProps, Theme } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import { makeStyles } from '@mui/styles';
 import { OptionSelect } from '@type/field';
@@ -7,6 +7,7 @@ import Helper from '@utils/helper';
 import clsx from 'clsx';
 import { FieldInputProps, FieldMetaProps, useFormikContext } from 'formik';
 import { FC } from 'react';
+import { FormLabel } from './FormLabel';
 
 export const fieldSelectStyle = makeStyles({
   label: {
@@ -19,19 +20,15 @@ export const fieldSelectStyle = makeStyles({
 
 export interface FieldSelectType {
   label?: string;
-  // prefix?: any;
-  // suffix?: any;
-  // placeholder?: string;
   className?: string;
   options: OptionSelect[];
-  // restric: Restrict;
-  // type?: string;
-  // required?: boolean;
+  sx?: SxProps<Theme>;
   field?: FieldInputProps<any>;
   meta?: FieldMetaProps<any>;
+  fieldProps?: any;
 }
 
-const FieldSelect: FC<FieldSelectType> = ({ label, options, className, field }) => {
+const FieldSelect: FC<FieldSelectType> = ({ label, options, className, field, sx, fieldProps }) => {
   const { touched, errors, setFieldValue } = useFormikContext();
   const fieldTouch: boolean = Helper.objValue(touched, field?.name);
   const fieldError: string = Helper.objValue(errors, field?.name);
@@ -43,24 +40,29 @@ const FieldSelect: FC<FieldSelectType> = ({ label, options, className, field }) 
     setFieldValue(field?.name as string, event.target.value);
   };
 
-  // label = `${label}${required && ' *'}`;
-
   return (
-    <div style={{ marginTop: 12 }} className={clsx(className)}>
+    <Box
+      sx={{
+        mt: 2,
+        ...sx,
+        '& .Mui-disabled': {
+          background: '#ebebeb',
+        },
+      }}
+      className={clsx(className)}
+    >
       <FormControl error={isError} fullWidth>
-        {/* <InputLabel className={styles.label} id={`${field?.name}-label`}>
-          {label}
-        </InputLabel> */}
-        {label && <label style={{ fontWeight: 600 }}>{label}</label>}
+        <FormLabel fieldName={field?.name} label={label} />
         <Select
           labelId={`${field?.name}-label`}
           id={field?.name}
           name={field?.name}
           size="small"
           value={field?.value}
+          onChange={handleChange}
+          {...fieldProps}
           // placeholder={placeholder}
           // label={label}
-          onChange={handleChange}
           // inputProps={{
           //   required,
           // }}
@@ -73,7 +75,7 @@ const FieldSelect: FC<FieldSelectType> = ({ label, options, className, field }) 
         </Select>
         {fieldTouch && fieldError && <FormHelperText>{fieldError}</FormHelperText>}
       </FormControl>
-    </div>
+    </Box>
   );
 };
 

@@ -7,6 +7,8 @@ export default class Validate {
 
   static min = (value: number) => `Bạn phải nhập ít nhất ${value} ký tự`;
 
+  static maxNumber = (value: number) => `Vui lòng nhập bé hơn ${value}`;
+
   static during = (min: number, max: number) => `Bạn phải nhập từ ${min} đến ${max} ký tự`;
 
   static notMatch = (fieldName?: string) => `${fieldName} không khớp`;

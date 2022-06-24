@@ -7,6 +7,7 @@ export const IOSSwitch = styled((props: SwitchProps) => (
   width: 42,
   height: 26,
   padding: 0,
+  marginRight: 3,
   '& .MuiSwitch-switchBase': {
     padding: 0,
     margin: 2,

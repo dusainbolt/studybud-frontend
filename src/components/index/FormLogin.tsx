@@ -17,11 +17,16 @@ export const FormLogin = () => {
     <Stack>
       <Field
         name="credential"
-        placeholder="Nhập email / tên đăng nhập"
         label="Email/ Tên đăng nhập"
         component={FieldText}
+        fieldProps={{ placeholder: 'Nhập email / tên đăng nhập' }}
       />
-      <Field name="password" placeholder="Nhập Mật khẩu" label="Mật khẩu" component={FieldText} type="password" />
+      <Field
+        name="password"
+        fieldProps={{ placeholder: 'Nhập Mật khẩu', type: 'password' }}
+        label="Mật khẩu"
+        component={FieldText}
+      />
       <Stack direction="row" justifyContent="end" spacing={1}>
         <a style={{ textAlign: 'right', display: 'block', marginTop: 4, textDecoration: 'underline' }} href="/register">
           Đăng ký

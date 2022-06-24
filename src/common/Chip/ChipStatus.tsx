@@ -1,11 +1,10 @@
 import { Chip, ChipProps } from '@mui/material';
-import { FC, CSSProperties } from 'react';
+import { FC } from 'react';
 
 interface ChipStatusProps extends ChipProps {
   colorStyle?: string;
-  styleProps?: CSSProperties;
 }
 
-export const ChipStatus: FC<ChipStatusProps> = ({ colorStyle = '', styleProps, ...props }) => {
-  return <Chip style={{ color: colorStyle, borderColor: colorStyle, ...styleProps }} variant="outlined" {...props} />;
+export const ChipStatus: FC<ChipStatusProps> = ({ colorStyle = '', sx, ...props }) => {
+  return <Chip variant="outlined" sx={{ color: colorStyle, borderColor: colorStyle, ...sx }} {...props} />;
 };

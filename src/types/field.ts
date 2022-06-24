@@ -8,15 +8,14 @@ export interface OptionSelect {
   disabled?: boolean;
 }
 
-export interface IField {
-  name: string;
-  label?: string;
-  placeholder?: string;
-  options?: OptionSelect[];
-  component: any;
-  type?: 'password' | 'text' | any;
-  restric?: Restrict;
-  required?: boolean;
-  grid?: number;
-  disabled?: boolean;
-}
+// export interface IField {
+//   name: string;
+//   label?: string;
+//   placeholder?: string;
+//   options?: OptionSelect[];
+//   component: any;
+//   type?: 'password' | 'text' | any;
+//   required?: boolean;
+//   grid?: number;
+//   disabled?: boolean;
+// }

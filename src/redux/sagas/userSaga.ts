@@ -118,7 +118,7 @@ function* watchLogin({ payload }: LoginAction) {
   }
 }
 
-export default function* authSaga(): any {
+export default function* userSaga(): any {
   yield takeEvery(registerStart, watchRegister);
   yield takeEvery(loginStart, watchLogin);
   yield takeEvery(verifyTokenStart, watchVerifyToken);

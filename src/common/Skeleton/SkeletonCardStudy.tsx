@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -49,7 +48,7 @@ function SkeletonChildrenDemo(props: { loading?: boolean }) {
   );
 }
 
-export const SkeletonChildren = () => {
+export const SkeletonCardStudy = () => {
   return (
     <Grid container spacing={8}>
       <Grid item xs>

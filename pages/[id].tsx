@@ -10,15 +10,15 @@ import { END } from 'redux-saga';
 
 const ProfilePage: FC<any> = ({ id }) => {
   useRedirectAuth();
-  const { token, user } = useAppSelector(getUserSlice);
+  const { user } = useAppSelector(getUserSlice);
   const isMyProfile = id === user?._id || id === user?.username;
   return (
     <Fragment>
       <Head>
-        <title>Du App</title>
+        <title>StudyBud</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
-      {token && user?._id ? <ProfilePageComponent isMyProfile={isMyProfile} /> : ''}
+      <ProfilePageComponent isMyProfile={isMyProfile} />
     </Fragment>
   );
 };

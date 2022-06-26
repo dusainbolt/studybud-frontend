@@ -102,149 +102,143 @@ const ProfilePageComponent: FC<{
 
   return (
     <Layout>
-      <main className={clsx(styles.main)}>
-        <Container className={styles.container}>
-          <div className={styles.cover}>
-            {isMyProfile && (
-              <Button
-                startIcon={<CameraAltIcon />}
-                size="small"
-                className={clsx(styles.btnControlProfile, styles.btnEditCover)}
-                variant="contained"
-              >
-                Chỉnh sửa ảnh bìa
-              </Button>
-            )}
+      <Container className={styles.container}>
+        <div className={styles.cover}>
+          {isMyProfile && (
+            <Button
+              startIcon={<CameraAltIcon />}
+              size="small"
+              className={clsx(styles.btnControlProfile, styles.btnEditCover)}
+              variant="contained"
+            >
+              Chỉnh sửa ảnh bìa
+            </Button>
+          )}
+        </div>
+        <Stack className={styles.contentWrap} spacing={4} direction={{ xs: 'column', md: 'row' }}>
+          <div className={styles.avatarWrap}>
+            <Avatar alt={user?.name} src={user?.avatar || ''} />
+            <ButtonIcon className={styles.btnEditAvatar} icon={<CameraAltIcon />} />
+            <Typography className={styles.username} variant="h1">
+              {user?.name || ''}
+            </Typography>
+            <Typography variant="body1">@{user?.username || ''}</Typography>
           </div>
-          <Stack className={styles.contentWrap} spacing={4} direction={{ xs: 'column', md: 'row' }}>
-            <div className={styles.avatarWrap}>
-              <Avatar alt={user?.name} src={user?.avatar || ''} />
-              <ButtonIcon className={styles.btnEditAvatar} icon={<CameraAltIcon />} />
-              <Typography className={styles.username} variant="h1">
-                {user?.name || ''}
-              </Typography>
-              <Typography variant="body1">@{user?.username || ''}</Typography>
-            </div>
-            <Stack spacing={0.7} sx={{ width: '100%' }}>
-              <div style={{ whiteSpace: 'pre-wrap' }}>{user?.description}</div>
-              {isMyProfile ? (
-                <Button
-                  startIcon={<EditIcon />}
-                  size="small"
-                  className={clsx(styles.btnControlProfile)}
-                  style={{ width: 180 }}
-                  variant="contained"
-                  onClick={toggleModalDescription}
-                >
-                  Mô tả bản thân
-                </Button>
-              ) : (
-                <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between">
-                  <Stack>
-                    <div>
-                      <b>Hoạt động lần cuối:</b> 23/02/2022
-                    </div>
-                    <div>
-                      <b>37 ban chung</b>
-                    </div>
-                  </Stack>
-                  <Stack spacing={2.5} direction="row">
-                    <Button className={styles.btnControlProfile} variant="contained">
-                      Kết bạn
-                    </Button>
-                    <Button className={styles.btnControlProfile} variant="contained">
-                      Nhắn tin
-                    </Button>
-                  </Stack>
+          <Stack spacing={0.7} sx={{ width: '100%' }}>
+            <div style={{ whiteSpace: 'pre-wrap' }}>{user?.description}</div>
+            {isMyProfile ? (
+              <Button
+                startIcon={<EditIcon />}
+                size="small"
+                className={clsx(styles.btnControlProfile)}
+                style={{ width: 180 }}
+                variant="contained"
+                onClick={toggleModalDescription}
+              >
+                Mô tả bản thân
+              </Button>
+            ) : (
+              <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between">
+                <Stack>
+                  <div>
+                    <b>Hoạt động lần cuối:</b> 23/02/2022
+                  </div>
+                  <div>
+                    <b>37 ban chung</b>
+                  </div>
                 </Stack>
-              )}
-            </Stack>
+                <Stack spacing={2.5} direction="row">
+                  <Button className={styles.btnControlProfile} variant="contained">
+                    Kết bạn
+                  </Button>
+                  <Button className={styles.btnControlProfile} variant="contained">
+                    Nhắn tin
+                  </Button>
+                </Stack>
+              </Stack>
+            )}
           </Stack>
-        </Container>
-        <Container className={styles.container}>
-          <Stack className={clsx(styles.profileBody, styles.spacingContent)} spacing={4} direction="row">
-            <div className={styles.profileContentLeft}>
-              <Stack spacing={1} className={styles.profileContentBox}>
-                <h2>
-                  Giới thiệu
-                  {isMyProfile && (
-                    <ButtonIcon
-                      onClick={toggleModalBasicInfo}
-                      size="small"
-                      className={styles.buttonIcon}
-                      icon={<EditIcon />}
-                    />
-                  )}
-                </h2>
-                <Stack direction="row">
-                  <SchoolIcon sx={{ marginRight: 0.8 }} />
-                  <div>
-                    Học tại <b>{user?.school}</b>
-                  </div>
-                </Stack>
-                <Stack direction="row">
-                  <HomeIcon sx={{ marginRight: 0.8 }} />
-                  <div>
-                    Đến từ <b>{user?.address}</b>
-                  </div>
-                </Stack>
-                <Stack direction="row">
-                  {user?.gender === Gender.FEMALE ? (
-                    <FemaleIcon sx={{ marginRight: 0.8 }} />
-                  ) : (
-                    <MaleIcon sx={{ marginRight: 0.8 }} />
-                  )}
-                  <div>
-                    <b>{Helper.getLabelByOptions(GenderOptions, user?.gender)}</b>
-                  </div>
-                </Stack>
+        </Stack>
+      </Container>
+      <Container className={styles.container}>
+        <Stack className={clsx(styles.profileBody, styles.spacingContent)} spacing={4} direction="row">
+          <div className={styles.profileContentLeft}>
+            <Stack spacing={1} className={styles.profileContentBox}>
+              <h2>
+                Giới thiệu
+                {isMyProfile && (
+                  <ButtonIcon
+                    onClick={toggleModalBasicInfo}
+                    size="small"
+                    className={styles.buttonIcon}
+                    icon={<EditIcon />}
+                  />
+                )}
+              </h2>
+              <Stack direction="row">
+                <SchoolIcon sx={{ marginRight: 0.8 }} />
                 <div>
-                  <i>*Nếu tôi không trả lời bạn, hãy nhắn cho tôi qua: {user?.contact}</i>
+                  Học tại <b>{user?.school}</b>
                 </div>
               </Stack>
-              <Stack spacing={1} className={styles.profileContentBox} sx={{ marginTop: 3 }}>
-                <h2>
-                  Đôi nét về mình{' '}
-                  {isMyProfile && <ButtonIcon size="small" className={styles.buttonIcon} icon={<EditIcon />} />}
-                </h2>
-                <div className={styles.aboutMeQABox}>Nếu chúng ta lỡ không hợp nhau thì sao?</div>
-                <div className={styles.aboutMeQABox}>Điều mình tìm kiếm ở người bạn học?</div>
-                <div className={styles.aboutMeQABox}>Mình là kiểu người học như thế nào?</div>
-                <div className={styles.aboutMeQABox}>Những lúc không học chúng ta có thể nói về?</div>
+              <Stack direction="row">
+                <HomeIcon sx={{ marginRight: 0.8 }} />
+                <div>
+                  Đến từ <b>{user?.address}</b>
+                </div>
               </Stack>
-            </div>
-            <div className={styles.profileContentRight}>
-              {isMyProfile && (
-                <Button
-                  onClick={toggleModalRequestStudybud}
-                  startIcon={<AddCircleIcon />}
-                  className={clsx(styles.btnControlProfile)}
-                  style={{ width: 330 }}
-                  variant="contained"
-                >
-                  Thêm yêu cầu tìm bạn học
-                </Button>
-              )}
-              <Grid container sx={{ marginTop: 2 }} spacing={2}>
-                {loadingStudyRequestList && (
-                  <Grid item xs={4}>
-                    <SkeletonCardStudy />
-                  </Grid>
+              <Stack direction="row">
+                {user?.gender === Gender.FEMALE ? (
+                  <FemaleIcon sx={{ marginRight: 0.8 }} />
+                ) : (
+                  <MaleIcon sx={{ marginRight: 0.8 }} />
                 )}
-                {myStudyRequestList.map((item, index) => (
-                  <Grid item key={index} xs={4}>
-                    <CardStudyRequest
-                      onClickEdit={openEditStudyRequest}
-                      studyRequest={item}
-                      isMyProfile={isMyProfile}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-            </div>
-          </Stack>
-        </Container>
-      </main>
+                <div>
+                  <b>{Helper.getLabelByOptions(GenderOptions, user?.gender)}</b>
+                </div>
+              </Stack>
+              <div>
+                <i>*Nếu tôi không trả lời bạn, hãy nhắn cho tôi qua: {user?.contact}</i>
+              </div>
+            </Stack>
+            <Stack spacing={1} className={styles.profileContentBox} sx={{ marginTop: 3 }}>
+              <h2>
+                Đôi nét về mình{' '}
+                {isMyProfile && <ButtonIcon size="small" className={styles.buttonIcon} icon={<EditIcon />} />}
+              </h2>
+              <div className={styles.aboutMeQABox}>Nếu chúng ta lỡ không hợp nhau thì sao?</div>
+              <div className={styles.aboutMeQABox}>Điều mình tìm kiếm ở người bạn học?</div>
+              <div className={styles.aboutMeQABox}>Mình là kiểu người học như thế nào?</div>
+              <div className={styles.aboutMeQABox}>Những lúc không học chúng ta có thể nói về?</div>
+            </Stack>
+          </div>
+          <div className={styles.profileContentRight}>
+            {isMyProfile && (
+              <Button
+                onClick={toggleModalRequestStudybud}
+                startIcon={<AddCircleIcon />}
+                className={clsx(styles.btnControlProfile)}
+                style={{ width: 330 }}
+                variant="contained"
+              >
+                Thêm yêu cầu tìm bạn học
+              </Button>
+            )}
+            <Grid container sx={{ marginTop: 2 }} spacing={2}>
+              {loadingStudyRequestList && (
+                <Grid item xs={4}>
+                  <SkeletonCardStudy />
+                </Grid>
+              )}
+              {myStudyRequestList.map((item, index) => (
+                <Grid item key={index} xs={4}>
+                  <CardStudyRequest onClickEdit={openEditStudyRequest} studyRequest={item} isMyProfile={isMyProfile} />
+                </Grid>
+              ))}
+            </Grid>
+          </div>
+        </Stack>
+      </Container>
       <Formik
         onSubmit={onSubmitModalProfile}
         validationSchema={validateFormDescription}

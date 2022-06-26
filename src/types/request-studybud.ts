@@ -15,6 +15,10 @@ export type CreateStudyRequestInput = {
   status: StatusOnOff;
 };
 
+export type UpdateStudyRequestInput = CreateStudyRequestInput & {
+  requestId: any;
+};
+
 export type SearchStudyRequestInput = {
   count?: boolean;
   key?: string;

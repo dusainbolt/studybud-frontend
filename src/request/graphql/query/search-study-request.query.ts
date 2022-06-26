@@ -9,6 +9,9 @@ const query = gql`
       createdAt
       missionDes
       point
+      standard
+      mission
+      topic
       pointValue
       title
       requestDes

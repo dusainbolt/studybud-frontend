@@ -8,11 +8,11 @@ import { getTopicSlice } from '@redux/slices/topicSlice';
 import { useAppSelector } from '@redux/store';
 import { defaultStyle } from '@styles/theme';
 import { Restrict } from '@type/field';
-import { CreateStudyRequestInput } from '@type/request-studybud';
+import { CreateStudyRequestInput, StudyRequest } from '@type/request-studybud';
 import { PointType } from '@type/standard';
 import { Gender } from '@type/user';
 import { Field, useFormikContext } from 'formik';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 export const GenderOptions = [
   {
@@ -29,30 +29,61 @@ export const ModalRequestStudybud: FC<{
   open: boolean;
   toggleModal: any;
   loading: boolean;
-}> = ({ open, toggleModal, loading }) => {
-  const { handleSubmit, values, setFieldValue, handleReset } = useFormikContext();
+  studyEditInfo?: StudyRequest;
+  initialValuesRequestStudy?: CreateStudyRequestInput;
+}> = ({ open, toggleModal, loading, studyEditInfo, initialValuesRequestStudy }) => {
+  const { handleSubmit, values, setFieldValue, handleReset, setValues } = useFormikContext();
+  const [enableChangeSelect, setEnableUpdateSelect] = useState<boolean>(false);
   const formValues = values as CreateStudyRequestInput;
   const { topics } = useAppSelector(getTopicSlice);
   const missions = topics?.find((item) => item._id === formValues?.topic)?.missionData;
   const standards = missions?.find((item) => item._id === formValues?.mission)?.standardData;
-  const standard = standards?.find((item) => item._id === formValues.standard);
+  const standard = open ? standards?.find((item) => item._id === formValues.standard) : null;
 
   useEffect(() => {
-    setFieldValue('mission', '');
+    if (enableChangeSelect) {
+      setFieldValue('mission', '');
+    }
   }, [formValues?.topic]);
 
   useEffect(() => {
-    setFieldValue('standard', '');
-    setFieldValue('point', '');
+    if (enableChangeSelect) {
+      setFieldValue('standard', '');
+      setFieldValue('point', '');
+    }
   }, [formValues?.mission]);
 
   useEffect(() => {
+    console.log('standard: ', standard);
     standard?._id && setFieldValue('standardData', standard);
   }, [standard]);
 
   useEffect(() => {
     !open && handleReset();
+    setEnableUpdateSelect(false);
   }, [open]);
+
+  useEffect(() => {
+    if (studyEditInfo?._id) {
+      setValues({
+        mission: studyEditInfo.mission,
+        missionDes: studyEditInfo.missionDes,
+        point: studyEditInfo.point || studyEditInfo.pointValue,
+        pointValue: '',
+        requestDes: studyEditInfo.requestDes,
+        standard: studyEditInfo.standard,
+        title: studyEditInfo.title,
+        topic: studyEditInfo.topic,
+        status: studyEditInfo.status,
+        standardData: standard,
+      } as CreateStudyRequestInput);
+    } else {
+      setValues(initialValuesRequestStudy);
+    }
+    return () => {
+      setEnableUpdateSelect(true);
+    };
+  }, [studyEditInfo, open]);
 
   return (
     <DialogModal

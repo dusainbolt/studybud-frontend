@@ -2,8 +2,9 @@ import { getAllTopicStart } from '@redux/slices/topicSlice';
 import { getUserSlice, updateProfileStart } from '@redux/slices/userSlice';
 import { useAppDispatch, useAppSelector } from '@redux/store';
 import { createStudyMutation } from '@request/graphql/mutation/create-study-request.mutation';
+import { updateStudyMutation } from '@request/graphql/mutation/update-study-request.mutation';
 import { searchStudyRequestQuery } from '@request/graphql/query/search-study-request.query';
-import { CreateStudyRequestInput } from '@type/request-studybud';
+import { CreateStudyRequestInput, StudyRequest } from '@type/request-studybud';
 import { PointType, Standard } from '@type/standard';
 import { UpdateUserInput } from '@type/user';
 import { useEffect, useState } from 'react';
@@ -14,7 +15,7 @@ export const useProfilePage = () => {
   const [loadingStudyRequestList, setLoadingStudyRequestList] = useState<boolean>(true);
   const [myStudyRequestList, setMyStudyRequestList] = useState<any>([]);
   const [visibleModalRequestStudybud, setVisibleModalRequestStudybud] = useState<boolean>(false);
-
+  const [studyEditInfo, setStudyEditInfo] = useState<StudyRequest>();
   const { user } = useAppSelector(getUserSlice);
 
   const dispatch = useAppDispatch();
@@ -45,11 +46,21 @@ export const useProfilePage = () => {
     values.pointValue = standard.pointType === PointType.INPUT ? null : pointTmp;
     delete (values as any)?.standardData;
     try {
-      const response = await createStudyMutation(values);
-      console.log('response: ', response);
-      setMyStudyRequestList((oldState) => [response, ...oldState]);
+      let response;
+      let message;
+      if (studyEditInfo?._id) {
+        response = await updateStudyMutation({ ...values, requestId: studyEditInfo?._id });
+        setMyStudyRequestList((oldState) =>
+          oldState.map((item) => (item._id === studyEditInfo?._id ? response : item))
+        );
+        message = `Cập nhật thành công`;
+      } else {
+        response = await createStudyMutation(values);
+        setMyStudyRequestList((oldState) => [response, ...oldState]);
+        message = `Thêm mới thành công`;
+      }
       setVisibleModalRequestStudybud(false);
-      toast.success('Thêm mới thành công');
+      toast.success(message);
     } catch (e) {
       console.log('Error: ', e);
     }
@@ -62,9 +73,13 @@ export const useProfilePage = () => {
 
   const toggleModalRequestStudybud = () => {
     setVisibleModalRequestStudybud((visible) => !visible);
+    setStudyEditInfo({} as any);
   };
 
-  // const onClickEditProfile = () => {};
+  const openEditStudyRequest = (data) => () => {
+    setStudyEditInfo(data);
+    setVisibleModalRequestStudybud(true);
+  };
 
   return {
     loadingRequestForm,
@@ -75,5 +90,7 @@ export const useProfilePage = () => {
     fetchListRequestStart,
     onSubmitRequestStudybud,
     onSubmitModalProfile,
+    openEditStudyRequest,
+    studyEditInfo,
   };
 };

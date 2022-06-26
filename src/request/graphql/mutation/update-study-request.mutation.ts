@@ -1,10 +1,10 @@
 import { gql } from '@apollo/client';
 import { graphQLReq } from '@request/graphql';
-import { CreateStudyRequestInput } from '@type/request-studybud';
+import { UpdateStudyRequestInput } from '@type/request-studybud';
 
 const query = gql`
-  mutation Mutation($input: CreateStudyRequestInput!) {
-    createStudyRequest(input: $input) {
+  mutation Mutation($input: UpdateStudyRequestInput!) {
+    updateStudyRequest(input: $input) {
       _id
       createdAt
       missionDes
@@ -29,6 +29,6 @@ const query = gql`
   }
 `;
 
-export const createStudyMutation = async (variables: CreateStudyRequestInput): Promise<any> => {
-  return await graphQLReq.mutation(query, { input: variables }, 'createStudyRequest');
+export const updateStudyMutation = async (variables: UpdateStudyRequestInput): Promise<any> => {
+  return await graphQLReq.mutation(query, { input: variables }, 'updateStudyRequest');
 };

@@ -44,6 +44,8 @@ const ProfilePageComponent: FC<{
     toggleModalRequestStudybud,
     myStudyRequestList,
     loadingStudyRequestList,
+    openEditStudyRequest,
+    studyEditInfo,
   } = useProfilePage();
 
   const initialValuesDescription: UpdateUserInput = {
@@ -231,7 +233,11 @@ const ProfilePageComponent: FC<{
                 )}
                 {myStudyRequestList.map((item, index) => (
                   <Grid item key={index} xs={4}>
-                    <CardStudyRequest studyRequest={item} isMyProfile={isMyProfile} />
+                    <CardStudyRequest
+                      onClickEdit={openEditStudyRequest}
+                      studyRequest={item}
+                      isMyProfile={isMyProfile}
+                    />
                   </Grid>
                 ))}
               </Grid>
@@ -263,6 +269,8 @@ const ProfilePageComponent: FC<{
         initialValues={initialValuesRequestStudy}
       >
         <ModalRequestStudybud
+          studyEditInfo={studyEditInfo}
+          initialValuesRequestStudy={initialValuesRequestStudy}
           loading={loadingUpdateProfile as any}
           toggleModal={toggleModalRequestStudybud}
           open={visibleModalRequestStudybud}

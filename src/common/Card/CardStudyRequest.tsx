@@ -8,7 +8,7 @@ import { FC } from 'react';
 export const CardStudyRequest: FC<{ studyRequest?: StudyRequest; isMyProfile?: boolean; onClickEdit?: any }> = ({
   studyRequest,
   isMyProfile = false,
-  // onClickEdit,
+  onClickEdit,
 }) => {
   const breadcrumbs = [
     // <Link underline="hover" key="1" color="inherit" href="/">
@@ -44,6 +44,7 @@ export const CardStudyRequest: FC<{ studyRequest?: StudyRequest; isMyProfile?: b
           {studyRequest?.title || ''}
           {isMyProfile && (
             <ButtonIcon
+              onClick={onClickEdit(studyRequest)}
               size="small"
               sx={{ ml: 1, width: 36, height: 36, position: 'absolute', right: 5, top: 10 }}
               icon={<EditIcon />}

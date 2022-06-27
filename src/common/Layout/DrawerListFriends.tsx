@@ -14,7 +14,7 @@ export const DrawerListFriends = () => {
       }}
     >
       <Toolbar />
-      <Box sx={{ overflow: 'auto', mt: 1 }}>
+      <Box sx={{ overflow: 'auto', mt: 3 }}>
         <Stack alignItems="center">
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" sx={{ width: 130, height: 130 }} />
           <Typography
@@ -25,54 +25,16 @@ export const DrawerListFriends = () => {
           </Typography>
         </Stack>
         <List>
-          <ListItem>
-            <StyledBadge overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant="dot">
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            </StyledBadge>
-            <Typography sx={{ color: '#000000', fontWeight: 600, ml: 1 }} variant="body2">
-              Le Huy Du
-            </Typography>
-          </ListItem>
-          <ListItem>
-            <StyledBadge overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant="dot">
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            </StyledBadge>
-            <Typography sx={{ color: '#000000', fontWeight: 600, ml: 1 }} variant="body2">
-              Le Huy Du
-            </Typography>
-          </ListItem>{' '}
-          <ListItem>
-            <StyledBadge overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant="dot">
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            </StyledBadge>
-            <Typography sx={{ color: '#000000', fontWeight: 600, ml: 1 }} variant="body2">
-              Le Huy Du
-            </Typography>
-          </ListItem>
-          <ListItem>
-            <StyledBadge overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant="dot">
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            </StyledBadge>
-            <Typography sx={{ color: '#000000', fontWeight: 600, ml: 1 }} variant="body2">
-              Le Huy Du
-            </Typography>
-          </ListItem>
-          <ListItem>
-            <StyledBadge overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant="dot">
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            </StyledBadge>
-            <Typography sx={{ color: '#000000', fontWeight: 600, ml: 1 }} variant="body2">
-              Le Huy Du
-            </Typography>
-          </ListItem>
-          <ListItem>
-            <StyledBadge overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant="dot">
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            </StyledBadge>
-            <Typography sx={{ color: '#000000', fontWeight: 600, ml: 1 }} variant="body2">
-              Le Huy Du
-            </Typography>
-          </ListItem>
+          {[1, 2, 3, 4, 5, 6].map((item, index) => (
+            <ListItem key={index} sx={{ cursor: 'pointer', [`&:hover`]: { opacity: 0.7 } }}>
+              <StyledBadge overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant="dot">
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+              </StyledBadge>
+              <Typography sx={{ color: '#000000', fontWeight: 600, ml: 1 }} variant="body2">
+                Le Huy Du {item}
+              </Typography>
+            </ListItem>
+          ))}
         </List>
         <Divider />
       </Box>

@@ -11,7 +11,7 @@ import FemaleIcon from '@mui/icons-material/Female';
 import HomeIcon from '@mui/icons-material/Home';
 import MaleIcon from '@mui/icons-material/Male';
 import SchoolIcon from '@mui/icons-material/School';
-import { Avatar, Container, Grid, Stack, Typography } from '@mui/material';
+import { Avatar, Container, Grid, NoSsr, Stack, Typography } from '@mui/material';
 import { getUserSlice } from '@redux/slices/userSlice';
 import { useAppSelector } from '@redux/store';
 import { StatusOnOff } from '@type/context';
@@ -239,37 +239,39 @@ const ProfilePageComponent: FC<{
           </div>
         </Stack>
       </Container>
-      <Formik
-        onSubmit={onSubmitModalProfile}
-        validationSchema={validateFormDescription}
-        initialValues={initialValuesDescription}
-      >
-        <ModalDescription
-          loading={loadingUpdateProfile as any}
-          toggleModal={toggleModalDescription}
-          open={visibleModalDescription}
-        />
-      </Formik>
-      <Formik onSubmit={onSubmitModalProfile} initialValues={initialValuesProfile}>
-        <ModalBasicInfo
-          loading={loadingUpdateProfile as any}
-          toggleModal={toggleModalBasicInfo}
-          open={visibleModalBasicInfo}
-        />
-      </Formik>
-      <Formik
-        onSubmit={onSubmitRequestStudybud}
-        validationSchema={validateFormRequestStudy}
-        initialValues={initialValuesRequestStudy}
-      >
-        <ModalRequestStudybud
-          studyEditInfo={studyEditInfo}
-          initialValuesRequestStudy={initialValuesRequestStudy}
-          loading={loadingUpdateProfile as any}
-          toggleModal={toggleModalRequestStudybud}
-          open={visibleModalRequestStudybud}
-        />
-      </Formik>
+      <NoSsr>
+        <Formik
+          onSubmit={onSubmitModalProfile}
+          validationSchema={validateFormDescription}
+          initialValues={initialValuesDescription}
+        >
+          <ModalDescription
+            loading={loadingUpdateProfile as any}
+            toggleModal={toggleModalDescription}
+            open={visibleModalDescription}
+          />
+        </Formik>
+        <Formik onSubmit={onSubmitModalProfile} initialValues={initialValuesProfile}>
+          <ModalBasicInfo
+            loading={loadingUpdateProfile as any}
+            toggleModal={toggleModalBasicInfo}
+            open={visibleModalBasicInfo}
+          />
+        </Formik>
+        <Formik
+          onSubmit={onSubmitRequestStudybud}
+          validationSchema={validateFormRequestStudy}
+          initialValues={initialValuesRequestStudy}
+        >
+          <ModalRequestStudybud
+            studyEditInfo={studyEditInfo}
+            initialValuesRequestStudy={initialValuesRequestStudy}
+            loading={loadingUpdateProfile as any}
+            toggleModal={toggleModalRequestStudybud}
+            open={visibleModalRequestStudybud}
+          />
+        </Formik>
+      </NoSsr>
     </Layout>
   );
 };

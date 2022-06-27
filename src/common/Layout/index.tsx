@@ -4,7 +4,7 @@ import { Header } from './Header';
 
 interface LayoutProps {
   children: ReactNode;
-  drawerLeft: ReactNode;
+  drawerLeft?: ReactNode;
   // breadcrumbs?: BreadcrumbsType[];
 }
 

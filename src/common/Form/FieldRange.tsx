@@ -19,7 +19,7 @@ export const FieldRange: FC<FieldRangeType> = ({ label, className, sx, field }) 
   const [value, setValue] = useState<number[]>([20, 37]);
 
   const handleChange = (event: Event, newValue: number | number[]) => {
-    console.log('event: ', event);
+    console.log('event: ', newValue, event);
     setValue(newValue as number[]);
   };
 
@@ -35,6 +35,8 @@ export const FieldRange: FC<FieldRangeType> = ({ label, className, sx, field }) 
     },
   ];
 
+  console.log('CHANGE');
+
   return (
     <Box sx={{ width: 300, mt: 2, ...sx }} className={clsx(className)}>
       <FormLabel fieldName={field?.name} label={label} />
@@ -43,7 +45,7 @@ export const FieldRange: FC<FieldRangeType> = ({ label, className, sx, field }) 
         value={value}
         marks={marks}
         // aria-label="Always visible"
-        onChange={handleChange}
+        onChangeCommitted={handleChange as any}
         valueLabelDisplay="auto"
         // getAriaValueText={valuetext}
       />

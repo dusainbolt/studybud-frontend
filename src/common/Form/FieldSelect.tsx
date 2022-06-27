@@ -40,6 +40,8 @@ const FieldSelect: FC<FieldSelectType> = ({ label, options, className, field, sx
     setFieldValue(field?.name as string, event.target.value);
   };
 
+  options = options?.length ? [{ label: '', value: '' }].concat(options) : options;
+
   return (
     <Box
       sx={{
@@ -68,7 +70,7 @@ const FieldSelect: FC<FieldSelectType> = ({ label, options, className, field, sx
           // }}
         >
           {options?.map((item, index) => (
-            <MenuItem key={index} value={item.value}>
+            <MenuItem sx={{ minHeight: `30px !important` }} key={index} value={item.value}>
               {item.label}
             </MenuItem>
           ))}

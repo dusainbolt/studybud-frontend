@@ -10,7 +10,11 @@ export const DrawerListFriends = () => {
       sx={{
         width: drawerWidth,
         flexShrink: 0,
-        [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+        [`& .MuiDrawer-paper`]: {
+          width: drawerWidth,
+          boxSizing: 'border-box',
+          filter: 'drop-shadow(0px 4px 7px rgba(0, 0, 0, 0.25))',
+        },
       }}
     >
       <Toolbar />

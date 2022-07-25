@@ -1,7 +1,7 @@
 import { User } from './user';
 
 export type SearchStudybudInput = {
-  gender?: string;
+  gender?: number;
   limit?: number;
   mission?: string;
   offset?: number;

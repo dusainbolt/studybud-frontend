@@ -1,9 +1,13 @@
 import { Button } from '@common/Button';
 import { Box, Breadcrumbs, Typography, Avatar } from '@mui/material';
 import { defaultStyle } from '@styles/theme';
+import { SearchStudybudOutput } from '@type/search-studybud'
 import { FC } from 'react';
 
-export const CardUserOverview: FC<{ onClickEdit?: any }> = ({ onClickEdit }) => {
+export const CardUserOverview: FC<{ searchStudybudOutput?: SearchStudybudOutput, onClickAddFriend?: any }> = ({ 
+    searchStudybudOutput,
+    onClickAddFriend
+  }) => {
   const subjects = ['Tiếng Pháp', 'Lập trình C++', 'Tiếng Nhật'];
 
   return (
@@ -19,14 +23,15 @@ export const CardUserOverview: FC<{ onClickEdit?: any }> = ({ onClickEdit }) => 
         maxHeight: '480px',
       }}
     >
-      <Avatar alt="User Image" src="/images/cat.jpg" sx={{ width: 180, height: 180, m: 'auto 0' }} />
+      <Avatar alt="User Image" src={searchStudybudOutput?.user?.avatar || "/images/cat.jpg"} sx={{ width: 180, height: 180, m: 'auto 0' }} />
       <Box className="container" sx={{ m: 'auto 0', px: 2, width: '100%' }}>
         <Box className="name_age_gender" sx={{ display: 'flex', justifyContent: 'space-between', pb: 2 }}>
           <Typography variant="h6" className="username" sx={{ fontWeight: 700 }}>
-            Hào Nam
+            {searchStudybudOutput?.user?.name || ''}
           </Typography>
           <Typography variant="body2" sx={{ color: '#747474', fontWeight: 500 }}>
-            22t, Nam
+            {searchStudybudOutput?.user?.birthday && searchStudybudOutput?.user?.gender ? 
+            ( searchStudybudOutput?.user?.birthday, searchStudybudOutput?.user?.gender ) : ''}
           </Typography>
         </Box>
         <Box className="short_introduction">

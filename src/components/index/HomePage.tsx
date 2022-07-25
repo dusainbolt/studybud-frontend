@@ -1,15 +1,20 @@
 import { Layout } from '@common/Layout';
 import { DrawerListFriends } from '@common/Layout/DrawerListFriends';
+import { CardUserOverview } from '@common/Card/CardUserOverview';
+import { SkeletonHomepageCard } from '@common/Skeleton/SkeletonHomepageCard';
 import { useHomePage } from '@hooks/useHomePage';
-import { Typography } from '@mui/material';
+import { Typography, Grid } from '@mui/material';
 import { Box } from '@mui/system';
 import { Formik } from 'formik';
 import { FC } from 'react';
 import { FormSearchStudy } from './FormSearchStudy';
-import { SearchResult } from './SearchResult';
 
 const HomePageComponent: FC<any> = () => {
-  const { onSubmitRequestStudybud } = useHomePage();
+  const { 
+    onSubmitRequestStudybud,
+    loadingSearchForm,
+    searchStudybudResult
+  } = useHomePage();
   const initialValuesRequestStudy = {};
 
   return (
@@ -22,7 +27,29 @@ const HomePageComponent: FC<any> = () => {
           <FormSearchStudy />
         </Formik>
       </Box>
-      <SearchResult />
+
+      <Box>
+        {loadingSearchForm && (
+          <Grid container spacing={2} sx={{ p: 6 }} className="CardContainer">
+            <SkeletonHomepageCard/>
+            <SkeletonHomepageCard/>
+            <SkeletonHomepageCard/>
+            <SkeletonHomepageCard/>
+            <SkeletonHomepageCard/>
+            <SkeletonHomepageCard/>
+          </Grid>
+        )}
+
+        <Grid container spacing={2} sx={{ p: 6 }} className="CardContainer">
+          {searchStudybudResult.map((item, index) => {
+            return (
+              <Grid item key={index} xs={4}>
+                <CardUserOverview searchStudybudOutput={item}  />
+              </Grid>
+            )
+          })}
+        </Grid>
+      </Box>
     </Layout>
   );
 };

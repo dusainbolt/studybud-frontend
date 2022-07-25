@@ -7,7 +7,7 @@ import { searchStudybudQuery } from '@request/graphql/query/search-studybud.quer
 import { useEffect, useState } from 'react';
 
 export const useHomePage = () => {
-  const [loadingRequestForm, setLoadingRequestForm] = useState<boolean>(false);
+  const [loadingSearchForm, setLoadingSearchForm] = useState<boolean>(false);
   const [searchStudybudResult, setSearchStudybudResult] = useState<any>([]);
   // const [loadingStudyRequestList, setLoadingStudyRequestList] = useState<boolean>(true);
   // const [myStudyRequestList, setMyStudyRequestList] = useState<any>([]);
@@ -34,7 +34,7 @@ export const useHomePage = () => {
   // };
 
   const onSubmitRequestStudybud = async (values: SearchStudybudInput) => {
-    setLoadingRequestForm(true);
+    setLoadingSearchForm(true);
 
     if (values.pointValue) {
       values.point = null;
@@ -50,6 +50,8 @@ export const useHomePage = () => {
     } catch (e) {
       console.log('Error: ', e);
     }
+
+    setLoadingSearchForm(false);
     // const standard: Standard = (values as any)?.standardData;
     // const pointTmp = values.point;
     // values.point = standard.pointType === PointType.INPUT ? pointTmp : null;
@@ -71,5 +73,9 @@ export const useHomePage = () => {
   //   setVisibleModalRequestStudybud(true);
   // };
 
-  return { onSubmitRequestStudybud };
+  return { 
+    onSubmitRequestStudybud,
+    loadingSearchForm,
+    searchStudybudResult
+  };
 };

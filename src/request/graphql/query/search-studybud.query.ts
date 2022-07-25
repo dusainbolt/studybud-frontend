@@ -6,22 +6,26 @@ import { SearchStudybudInput } from '@type/search-studybud';
 const query = gql`
   query Query($input: SearchStudybudInput!) {
     searchStudybud(input: $input) {
-      point
-      standard
-      mission
-      topic
-      pointValue
-      title
-      requestDes
-      status
-      missionData {
+      user {
+        _id
+        email
+        username
         name
-      }
-      standardData {
-        name
-      }
-      topicData {
-        name
+        firstName
+        lastName
+        avatar
+        description
+        phone
+        contact
+        address
+        school
+        socialType
+        socialId
+        gender
+        birthday
+        status
+        createdAt
+        updatedAt
       }
     }
   }

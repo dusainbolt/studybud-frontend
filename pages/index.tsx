@@ -10,6 +10,7 @@ import { FC, Fragment } from 'react';
 const Home: FC<any> = () => {
   useRedirectAuth();
   const { token, user } = useAppSelector(getUserSlice);
+  console.log('user', user)
   return (
     <Fragment>
       <Head>

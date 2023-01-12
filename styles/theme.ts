@@ -5,7 +5,7 @@ import Constant from '@utils/constant';
 type DefaultStyle = {
   container: any;
   main: any;
-  btnStyle: (color: string, hoverBackground: string) => any;
+  btnStyle: (color: string) => any;
 };
 
 export const defaultStyle: DefaultStyle = {
@@ -21,12 +21,14 @@ export const defaultStyle: DefaultStyle = {
   main: {
     marginTop: 100,
   },
-  btnStyle: (color: string, hoverBackground: string = '') => ({
+  btnStyle: (color: string) => ({
     borderColor: color,
-    color: color,
+    background: color,
+
     '&:hover': {
       borderColor: color,
-      background: hoverBackground,
+      background: color,
+      opacity: 0.7,
     },
   }),
 };
@@ -70,21 +72,21 @@ export const getThemeConfig = (mode: PaletteMode) => ({
     },
   },
   typography: {
-    fontFamily: 'Roboto',
+    fontFamily: 'Montserrat',
   },
   components: {
     MuiTypography: {
       defaultProps: {
         variantMapping: {
-          h1: 'h2',
+          h1: 'h1',
           h2: 'h2',
-          h3: 'h2',
-          h4: 'h2',
-          h5: 'h2',
-          h6: 'h2',
+          h3: 'h3',
+          h4: 'h4',
+          h5: 'h5',
+          h6: 'h6',
           subtitle1: 'h2',
           subtitle2: 'h2',
-          body1: 'span',
+          body1: 'p',
           body2: 'span',
         },
       },

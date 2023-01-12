@@ -84,7 +84,7 @@ const MyApp: FC<MyAppProps> = (props: MyAppProps) => {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>My App</title>
+        <title>Du Talk</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
       <ThemeContext.Provider value={mode}>

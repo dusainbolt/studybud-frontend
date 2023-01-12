@@ -73,21 +73,3 @@ export type UserSlice = {
   user?: User;
   list?: User[];
 };
-
-export type UpdateUserInput = {
-  username: string;
-};
-
-export type SearchUserInput = {
-  count?: boolean;
-
-  key?: string;
-
-  limit?: number;
-
-  offset?: number;
-
-  orderBy?: string;
-
-  sortBy?: number;
-};

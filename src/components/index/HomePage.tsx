@@ -1,55 +1,48 @@
-import { Button } from '@common/Button';
-import { Container, Typography } from '@mui/material';
-import { getListUserStart, getUserSlice, logout } from '@redux/slices/userSlice';
-import { useAppDispatch, useAppSelector } from '@redux/store';
-import { updateUserMutation } from '@request/graphql/mutation/update-user.mutation';
-import { UpdateUserInput } from '@type/user';
-import Validate from '@utils/validate';
-import clsx from 'clsx';
-import { Formik } from 'formik';
-import { FC, useEffect } from 'react';
-import { CardUser } from 'src/shared/Card/CardUser';
-import * as yup from 'yup';
-import { FormEditUser } from './FormEditUser';
-import { homePageStyle } from './homePageStyle';
+import DrawerAppBar from '@common/Layout/AppBar';
+import LoginComponent from '@components/Login';
+import { Container } from '@mui/material';
+import { FC, Fragment } from 'react';
+// import * as yup from 'yup';
+// import Validate from '@utils/validate';
 
 const HomePage: FC<any> = () => {
-  const styles = homePageStyle();
-  const { user, list } = useAppSelector(getUserSlice);
+  // const { user, list } = useAppSelector(getUserSlice);
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
-  const initValueFormEditUser: UpdateUserInput = { username: '' };
+  // const initValueFormEditUser: UpdateUserInput = { username: '' };
 
-  const validateFormEditUser = yup.object({
-    username: yup.string().required(Validate.require('username')),
-    // .min(4, Validate.during(4, 12))
-    // .max(12, Validate.during(4, 12)),
-  });
+  // const validateFormEditUser = yup.object({
+  //   username: yup.string().required(Validate.require('username')),
+  //   // .min(4, Validate.during(4, 12))
+  //   // .max(12, Validate.during(4, 12)),
+  // });
 
-  useEffect(() => {
-    dispatch(getListUserStart());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getListUserStart());
+  // }, []);
 
-  const logOut = () => {
-    dispatch(logout());
-  };
+  // const logOut = () => {
+  //   dispatch(logout());
+  // };
 
-  const onSubmitEditUser = async (values) => {
-    await updateUserMutation(values);
-  };
+  // const onSubmitEditUser = async () => {
+  //   // await updateUserMutation(values);
+  // };
 
   return (
-    <main className={clsx(styles.main, styles.spacingContent)}>
-      <Container maxWidth="lg">
-        <CardUser user={user} />
+    <Fragment>
+      <DrawerAppBar />
+      <main>
+        <Container maxWidth="lg">
+          {/* <CardUser user={user} />
         <Button onClick={logOut} variant="contained">
           Dang xuat
         </Button>
         <Formik
           onSubmit={onSubmitEditUser}
-          validationSchema={validateFormEditUser}
-          initialValues={initValueFormEditUser}
+          // validationSchema={validateFormEditUser}
+          initialValues={{}}
         >
           <FormEditUser />
         </Formik>
@@ -57,10 +50,14 @@ const HomePage: FC<any> = () => {
           Danh sach user
         </Typography>
         {list?.map((item, index) => (
-          <CardUser index={index} user={item} />
-        ))}
-      </Container>
-    </main>
+          <CardUser key={index} user={item} />
+        ))} */}
+          HOME PAGE
+          <LoginComponent />
+          <LoginComponent />
+        </Container>
+      </main>
+    </Fragment>
   );
 };
 

@@ -33,17 +33,17 @@ const userSlice = createSlice({
     verifyOAuth2Error: (state: UserSlice) => {
       state.loadingLogin = false;
     },
-    // getListUserStart
-    getListUserStart: (state: UserSlice) => {
-      state.loadingGetList = true;
-    },
-    getListUserSuccess: (state: UserSlice, { payload }: GetListUserSuccessAction) => {
-      state.loadingGetList = false;
-      state.list = payload;
-    },
-    getListUserError: (state: UserSlice) => {
-      state.loadingGetList = false;
-    },
+    // // getListUserStart
+    // getListUserStart: (state: UserSlice) => {
+    //   state.loadingGetList = true;
+    // },
+    // getListUserSuccess: (state: UserSlice, { payload }: GetListUserSuccessAction) => {
+    //   state.loadingGetList = false;
+    //   state.list = payload;
+    // },
+    // getListUserError: (state: UserSlice) => {
+    //   state.loadingGetList = false;
+    // },
     // logout
     logout: () => {
       return initialState;
@@ -65,9 +65,9 @@ export const {
   verifyOAuth2Start,
   verifyOAuth2Success,
   verifyOAuth2Error,
-  getListUserStart,
-  getListUserSuccess,
-  getListUserError,
+  // getListUserStart,
+  // getListUserSuccess,
+  // getListUserError,
   logout,
 } = userSlice.actions;
 

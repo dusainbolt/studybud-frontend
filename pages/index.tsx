@@ -1,22 +1,17 @@
 import HomePage from '@components/index/HomePage';
-import LoginPage from '@components/index/LoginPage';
-import { useRedirectAuth } from '@hooks/useRedirectAuth';
-import { getUserSlice } from '@redux/slices/userSlice';
-import { useAppSelector, wrapper } from '@redux/store';
+import { wrapper } from '@redux/store';
 import { SSGContext } from '@type/context';
 import Head from 'next/head';
 import { FC, Fragment } from 'react';
 
 const Home: FC<any> = () => {
-  useRedirectAuth();
-  const { token, user } = useAppSelector(getUserSlice);
   return (
     <Fragment>
       <Head>
-        <title>Du App</title>
+        <title>DuTalk | Trang chủ</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
-      {token && user?._id ? <HomePage /> : <LoginPage />}
+      <HomePage />
     </Fragment>
   );
 };

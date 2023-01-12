@@ -1,4 +1,5 @@
-import { FormControl, FormHelperText, InputLabel, Select } from '@mui/material';
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import { Box, FormControl, FormHelperText, Select, SxProps, Theme } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import { makeStyles } from '@mui/styles';
 import { OptionSelect } from '@type/field';
@@ -6,6 +7,7 @@ import Helper from '@utils/helper';
 import clsx from 'clsx';
 import { FieldInputProps, FieldMetaProps, useFormikContext } from 'formik';
 import { FC } from 'react';
+import { FormLabel } from './FormLabel';
 
 export const fieldSelectStyle = makeStyles({
   label: {
@@ -18,60 +20,64 @@ export const fieldSelectStyle = makeStyles({
 
 export interface FieldSelectType {
   label?: string;
-  // prefix?: any;
-  // suffix?: any;
-  placeholder?: string;
   className?: string;
   options: OptionSelect[];
-  // restric: Restrict;
-  // type?: string;
-  required?: boolean;
+  sx?: SxProps<Theme>;
   field?: FieldInputProps<any>;
   meta?: FieldMetaProps<any>;
+  fieldProps?: any;
 }
 
-const FieldSelect: FC<FieldSelectType> = ({ label, placeholder, required, options, className, field }) => {
+const FieldSelect: FC<FieldSelectType> = ({ label, options, className, field, sx, fieldProps }) => {
   const { touched, errors, setFieldValue } = useFormikContext();
   const fieldTouch: boolean = Helper.objValue(touched, field?.name);
   const fieldError: string = Helper.objValue(errors, field?.name);
   const isError: boolean = fieldTouch && Boolean(fieldError);
 
-  const styles = fieldSelectStyle();
+  // const styles = fieldSelectStyle();
 
   const handleChange = (event) => {
     setFieldValue(field?.name as string, event.target.value);
   };
 
-  label = `${label}${required && ' *'}`;
+  options = options?.length ? [{ label: '', value: '' }].concat(options) : options;
 
   return (
-    <div className={clsx(className)}>
+    <Box
+      sx={{
+        mt: 2,
+        ...sx,
+        '& .Mui-disabled': {
+          background: '#ebebeb',
+        },
+      }}
+      className={clsx(className)}
+    >
       <FormControl error={isError} fullWidth>
-        <InputLabel className={styles.label} id={`${field?.name}-label`}>
-          {label}
-        </InputLabel>
+        <FormLabel fieldName={field?.name} label={label} />
         <Select
           labelId={`${field?.name}-label`}
           id={field?.name}
           name={field?.name}
           size="small"
           value={field?.value}
-          placeholder={placeholder}
-          label={label}
           onChange={handleChange}
-          inputProps={{
-            required,
-          }}
+          {...fieldProps}
+          // placeholder={placeholder}
+          // label={label}
+          // inputProps={{
+          //   required,
+          // }}
         >
           {options?.map((item, index) => (
-            <MenuItem key={index} value={item.value}>
+            <MenuItem sx={{ minHeight: `30px !important` }} key={index} value={item.value}>
               {item.label}
             </MenuItem>
           ))}
         </Select>
         {fieldTouch && fieldError && <FormHelperText>{fieldError}</FormHelperText>}
       </FormControl>
-    </div>
+    </Box>
   );
 };
 

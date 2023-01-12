@@ -1,6 +1,8 @@
 export default class Validate {
   static require = (fieldName?: string) => `${fieldName} không được để trống`;
 
+  static username = (fieldName?: string) => `${fieldName} chỉ cho phép nhập các ký tự [a-zA-Z0-9_]`;
+
   static email = () => `Vui lòng nhập địa chỉ email hợp lệ`;
 
   static min = (value: number) => `Bạn phải nhập ít nhất ${value} ký tự`;
